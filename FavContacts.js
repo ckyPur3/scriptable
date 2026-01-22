@@ -2,16 +2,81 @@
 Script: FavContacts.js
 Author: Ankit Jain (<ajatkj@yahoo.co.in>)
 Date: 21.03.2021
-Version: 2.0
+Version: 2.1
+------------------------------------------------------------------------------------------------------
+DESCRIPTION:
+This script creates a customizable widget to display your favorite contacts with quick action buttons
+for calling, messaging, FaceTime, email, and messaging apps (WhatsApp, Signal, Telegram, Twitter, etc.)
+
+FEATURES:
+- Multiple widget sizes (small, medium, large)
+- 40+ beautiful color themes
+- 3 avatar styles: contact photo, initials, or SF Symbol
+- Configurable quick action buttons (up to 3)
+- Interactive setup menu when running in the Scriptable app
+- Support for multiple messaging platforms
+- Custom actions per contact
+- Transparent widget support
+
+HOW TO USE:
+1. SETUP CONTACTS (choose one method):
+   Method A: Create a group named "Favourites" in iCloud Contacts and add contacts
+   Method B: Edit contacts and add Social Profile "Scriptable" with value "Scriptable"
+   Method C: Manually add contacts in the allcontacts array below (not recommended)
+
+2. RUN IN APP:
+   - Open Scriptable app and run FavContacts
+   - Use the interactive setup menu to configure:
+     * Choose from 40+ themes
+     * Select avatar style (contact photo, initials, or symbol)
+     * Configure quick actions (message, FaceTime, WhatsApp, Signal, etc.)
+     * View current settings
+   - The script will update contacts cache automatically
+
+3. ADD WIDGET TO HOME SCREEN:
+   - Long press on home screen
+   - Tap "+" to add widget
+   - Select "Scriptable"
+   - Choose widget size (small, medium, or large)
+   - Edit widget and select "FavContacts" script
+   - Optionally add parameters (see WIDGET PARAMETERS below)
+
+WIDGET PARAMETERS:
+You can customize each widget by passing parameters:
+- Widget number: `1`, `2`, `3`, etc. (to show different contacts on different widgets)
+- Theme: `{"theme": "sailorBlueMint"}`
+- Avatar style: `{"avatar": "initials"}`
+- Transparent widget: `{"theme": "transparent", "pos": "top-left"}`
+- Combined: `2,{"theme": "electricBlueAqua", "avatar": "contact"}`
+
+Valid positions for transparent widgets:
+  Small: top-left, top-right, middle-left, middle-right, bottom-left, bottom-right
+  Medium: top, middle, bottom
+  Large: top, bottom
+
+CUSTOM QUICK ACTIONS PER CONTACT:
+Add a "Scriptable" social profile to any contact with comma-separated actions:
+Example: "whatsapp,facetimeVideo,message"
+
+AVAILABLE QUICK ACTIONS:
+- message, facetimeVideo, facetimeAudio
+- whatsapp, signal, telegram, messenger
+- email, gmail, outlook, spark
+- twitter, twitterrific, tweetbot
+
+CONFIGURATION:
+Edit the variables in the CONFIGURABLE SECTION below to set defaults.
+
+DEPENDENCIES:
+- For transparent widgets: Install "no-background" module from https://github.com/supermamon/scriptable-no-background
+
+TROUBLESHOOTING:
+- If contacts don't show: Run script in-app to update contacts cache
+- If widget shows setup message: Make sure you've added favorites using one of the 3 methods above
+- If transparent theme doesn't work: Install the no-background module
+
+For more information, visit: https://github.com/ajatkj/scriptable
 ------------------------------------------------------------------------------------------------------*/
-// This script generates a widget with your favourite contacts to quickly call, message, facetime etc.
-// right from your home screen.
-// There are 3 ways to fetch contact:
-// 1. Create a group in iCloud called "Favourites" and your favourite contacts to this group.
-// 2. Go to your Phone app and add a "Social Profile" called "Scriptable" with value "Scriptable". 
-// 3. Add your contacts in this script in below format (not recommended!).
-// Script will only do step 2+3 if it doesn't find the group "Favourites" or doesn't find any contacts in that group.
-// Once above set-up is done, run the script in-app to update the cache. Widgets will pick contact details from cache.
 // List of contacts to fetch
 let allcontacts = [
     {firstname: 'Firstname', lastname: 'Lastname'},
@@ -22,7 +87,7 @@ let AVATAR_STYLE = "contact"
 let THEME = "antwerpBlue";
 let SHOW_NAMES = false;
 let NO_OF_ITEMS_TO_SHOW = 2; // Minimum 2, maximum 3;
-// Valid values are "message","facetimeVideo","facetimeAudio","whatsapp","telegram","email","outlook","gmail","spark","twitter","twitterrific","tweetbot"
+// Valid values are "message","facetimeVideo","facetimeAudio","whatsapp","signal","telegram","messenger","email","outlook","gmail","spark","twitter","twitterrific","tweetbot"
 let ITEMS_TO_SHOW = ["twitter","facetimeVideo","message","whatsapp","spark","gmail"];
 const CONTACTS_SYMBOL_STYLE = "person.circle.fill"; // Should be a valid SF Symbol
 
@@ -35,6 +100,7 @@ const LOG_FILE_PATH = "FavContactsLogs";
 const LOG_TO_FILE = true; // Only set to true if you want to debug any issue
 let LOG_STEP = 1;
 let WIDGET_POSITION = "bottom";
+const DEFAULT_THEME = "antwerpBlue"; // Default theme when transparent theme fails
 
 let WIDGET_NO = 1;
 // Pass argument in the form: widgetNo, {"theme": "color", "avatar": "contact"}
@@ -70,8 +136,9 @@ itemList = {
     facetimeVideo: {symbol: "video.circle.fill", url: "facetime://", use: "both"},
     facetimeAudio: {symbol: "phone.circle.fill", url: "facetime-audio://", use: "both"},
     whatsapp: {symbol: null, initial: "W", url: "https://wa.me/", use: "phone"},
-    // signal: {symbol: "circle.dashed.inset.fill", initial: "L", url: "sgnl://", use: "phone"},
+    signal: {symbol: "circle.dashed.inset.fill", initial: "S", url: "sgnl://signal.me/#p/", use: "phone"},
     telegram: {symbol: "paperplane.circle.fill", url: "telegram://", use: "phone"},
+    messenger: {symbol: "bubble.left.circle.fill", initial: "M", url: "fb-messenger://user/", use: "phone"},
     email: {symbol: "envelope.circle.fill", url: "message://", use: "email"},
     spark: {symbol: "envelope.circle.fill", initial: "S", url: "readdle-spark://compose?recipient=", use: "email"},
     outlook: {symbol: "envelope.circle.fill", initial: "O", url: "ms-outlook://compose?to=", use: "email"},
@@ -129,7 +196,7 @@ allColors = {
     transparent: ["181D21","181D21","FCF6F5","FCF6F5"],
 }
 
-widgetType = config.widgetFamily ? config.widgetFamily : PREVIEW_WIDGET;0
+widgetType = config.widgetFamily ? config.widgetFamily : PREVIEW_WIDGET;
 if (widgetType == "small") {
     MAX_CONTACTS = 1;
     NO_OF_ITEMS_TO_SHOW = 0;
@@ -140,42 +207,60 @@ if (widgetType == "small") {
     MAX_CONTACTS = 8;
 }
 
-// Interactive setup menu when running in app (not in widget)
-if (!config.runsInWidget && config.runsInApp) {
-    const shouldShowMenu = await showInteractiveSetupMenu();
-    if (shouldShowMenu === false) {
-        // User chose to exit setup
-        Script.complete();
-        return;
+// Main execution wrapped in async function
+(async () => {
+    // Interactive setup menu when running in app (not in widget)
+    if (!config.runsInWidget && config.runsInApp) {
+        const shouldShowMenu = await showInteractiveSetupMenu();
+        if (shouldShowMenu === false) {
+            // User chose to exit setup
+            Script.complete();
+            return;
+        }
     }
-}
 
-// Update contacts.json when script is run in app
-if (!config.runsInWidget) {
-    await loadContacts();
-}
+    // Update contacts.json when script is run in app
+    if (!config.runsInWidget) {
+        await loadContacts();
+    }
 
-// Fetch contact list from iCloud/Local drive
-let fm = FileManager.local();
-const iCloudUsed = fm.isFileStoredIniCloud(module.filename);
-fm = iCloudUsed ? FileManager.iCloud() : fm;
-const widgetFolder = "Favcon";
-const offlinePath = fm.joinPath(fm.documentsDirectory(), widgetFolder);
-if (!fm.fileExists(offlinePath)) fm.createDirectory(offlinePath);
-contactsFile = fm.joinPath(offlinePath,'contacts.json');
-if (!fm.isFileDownloaded(contactsFile) && fileExists(contactsFile)) fm.downloadFileFromiCloud(contactsFile);
+    // Fetch contact list from iCloud/Local drive
+    let fm = FileManager.local();
+    const iCloudUsed = fm.isFileStoredIniCloud(module.filename);
+    fm = iCloudUsed ? FileManager.iCloud() : fm;
+    const widgetFolder = "Favcon";
+    const offlinePath = fm.joinPath(fm.documentsDirectory(), widgetFolder);
+    if (!fm.fileExists(offlinePath)) fm.createDirectory(offlinePath);
+    contactsFile = fm.joinPath(offlinePath,'contacts.json');
+    if (!fm.isFileDownloaded(contactsFile) && fm.fileExists(contactsFile)) fm.downloadFileFromiCloud(contactsFile);
 
-contactList = JSON.parse(fm.readString(contactsFile));
-widget = await createWidget(contactList);
+    // Handle missing or invalid contacts file
+    let contactList = {};
+    try {
+        if (fm.fileExists(contactsFile)) {
+            const fileContent = fm.readString(contactsFile);
+            contactList = JSON.parse(fileContent);
+        } else {
+            // Create empty contacts file if it doesn't exist
+            writeLOG("Contacts file not found. Creating empty file.");
+            fm.writeString(contactsFile, JSON.stringify({}));
+        }
+    } catch (error) {
+        writeLOG("Error reading contacts file: " + error.message);
+        contactList = {};
+    }
 
-if (config.runsInWidget) {
-    Script.setWidget(widget);
-} else {
-  if (widgetType == 'small') widget.presentSmall();
-  else if (widgetType == 'medium') widget.presentMedium();
-  else widget.presentLarge();
-}
-Script.complete();
+    widget = await createWidget(contactList);
+
+    if (config.runsInWidget) {
+        Script.setWidget(widget);
+    } else {
+      if (widgetType == 'small') widget.presentSmall();
+      else if (widgetType == 'medium') widget.presentMedium();
+      else widget.presentLarge();
+    }
+    Script.complete();
+})();
 
 ///*------------------------------------------------------------------------------------------------------------------
 // *                                               FUNCTION DEFINITION
@@ -546,6 +631,7 @@ async function loadContacts(){
 
     contactList = {};
     i = 0;
+    let processedCount = 0;
     filteredContacts.forEach(function(f){
         if (f.isPhoneNumbersAvailable || f.isEmailAddressesAvailable) {
             f1 = Object.keys(f);
@@ -553,12 +639,27 @@ async function loadContacts(){
             else phoneNumber = f.phoneNumbers[0].value;
             if (!f.isEmailAddressesAvailable || f.emailAddresses == "") emailID = "0";
             else emailID = f.emailAddresses[0].value;
-            twitterProfile = f.socialProfiles.filter(s => s.service.toUpperCase() === 'TWITTER');
+            twitterProfile = f.socialProfiles.filter(s => s.service && s.service.toUpperCase() === 'TWITTER');
             if (twitterProfile.length > 0) {
                 twitter = twitterProfile[0].username;
             } else twitter = "0";
             quickActions=addAndValidateActions(f.socialProfiles);
-            contactList[f.identifier] = {givenName: f.givenName, familyName: f.familyName, sfSymbol: CONTACTS_SYMBOL_STYLE, nickName: f.nickName, phoneNumber: phoneNumber, emailID: emailID, twitter: twitter, quickActions: quickActions};  
+            
+            // Validate contact has at least a given name
+            const firstName = f.givenName || f.nickName || "Unknown";
+            const lastName = f.familyName || "";
+            
+            contactList[f.identifier] = {
+                givenName: firstName, 
+                familyName: lastName, 
+                sfSymbol: CONTACTS_SYMBOL_STYLE, 
+                nickName: f.nickName || firstName, 
+                phoneNumber: phoneNumber, 
+                emailID: emailID, 
+                twitter: twitter, 
+                quickActions: quickActions
+            };
+            processedCount++;
         }
         try {
             if (f.isImageAvailable || f.image !== null) {
@@ -585,7 +686,17 @@ async function loadContacts(){
         }
         i++;
     })
+    writeLOG(`Processed ${processedCount} contacts out of ${filteredContacts.length} filtered contacts`);
     fm.writeString(contactsFile, JSON.stringify(contactList));
+    
+    // Show success message when running in app
+    if (config.runsInApp) {
+        const successAlert = new Alert();
+        successAlert.title = "Contacts Updated";
+        successAlert.message = `Successfully updated ${processedCount} favorite contacts.\n\nYou can now add the widget to your home screen.`;
+        successAlert.addAction("OK");
+        await successAlert.presentAlert();
+    }
 }
 function addAndValidateActions(profiles){
     // Find out if there is a specific preference for this contact
@@ -617,12 +728,13 @@ async function writeLOG(logMsg){
 async function showInteractiveSetupMenu() {
     const alert = new Alert();
     alert.title = "FavContacts Setup";
-    alert.message = "Configure your favorite contacts widget";
+    alert.message = "Configure your favorite contacts widget\n\n💡 Tip: Run 'Update Contacts' first if this is your first time using the widget.";
     
     alert.addAction("🎨 Choose Theme");
     alert.addAction("👤 Avatar Style");
     alert.addAction("⚡ Quick Actions");
     alert.addAction("📋 View Settings");
+    alert.addAction("ℹ️ How to Use");
     alert.addAction("✅ Update Contacts & Continue");
     alert.addCancelAction("Cancel");
     
@@ -650,6 +762,10 @@ async function showInteractiveSetupMenu() {
             return await showInteractiveSetupMenu(); // Show menu again
             
         case 4:
+            await showUsageGuide();
+            return await showInteractiveSetupMenu(); // Show menu again
+            
+        case 5:
             return true; // Continue with contact update
     }
 }
@@ -730,7 +846,9 @@ async function selectQuickActionsInteractive() {
         facetimeVideo: "📹 FaceTime Video",
         facetimeAudio: "📞 FaceTime Audio",
         whatsapp: "💬 WhatsApp",
+        signal: "🔒 Signal",
         telegram: "✈️ Telegram",
+        messenger: "💬 Messenger",
         email: "📧 Email",
         outlook: "📧 Outlook",
         gmail: "📧 Gmail",
@@ -818,4 +936,46 @@ Note: These are runtime settings. To make permanent changes, edit the script con
     alert.message = settings;
     alert.addAction("OK");
     await alert.presentAlert();
+}
+
+// Show usage guide
+async function showUsageGuide() {
+    const guide = `HOW TO USE FAVCONTACTS:
+
+1️⃣ SETUP CONTACTS (choose one):
+   • Create "Favourites" group in Contacts
+   • Add "Scriptable" social profile to contacts
+   • Edit allcontacts array in script
+
+2️⃣ UPDATE CONTACTS:
+   • Run this script in Scriptable app
+   • Select "Update Contacts & Continue"
+
+3️⃣ ADD WIDGET:
+   • Long press home screen
+   • Add Scriptable widget
+   • Select FavContacts script
+   • Optional: Add parameters like:
+     {"theme": "sailorBlueMint"}
+
+📱 WIDGET SIZES:
+   • Small: 1 contact, no actions
+   • Medium: 4 contacts with actions
+   • Large: 8 contacts with actions
+
+⚡ QUICK ACTIONS:
+   Configure up to 3 quick action buttons per contact for calling, messaging, email, and social media.
+
+🎨 THEMES:
+   Choose from 40+ beautiful color themes or use transparent mode.
+
+For more details, visit:
+github.com/ajatkj/scriptable`;
+    
+    const alert = new Alert();
+    alert.title = "Usage Guide";
+    alert.message = guide;
+    alert.addAction("OK");
+    await alert.presentAlert();
+}
 }
