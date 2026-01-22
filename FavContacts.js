@@ -60,7 +60,7 @@ Example: "whatsapp,facetimeVideo,message"
 
 AVAILABLE QUICK ACTIONS:
 - message, facetimeVideo, facetimeAudio
-- whatsapp, signal, telegram
+- whatsapp, signal, telegram, messenger
 - email, gmail, outlook, spark
 - twitter, twitterrific, tweetbot
 
@@ -87,7 +87,7 @@ let AVATAR_STYLE = "contact"
 let THEME = "antwerpBlue";
 let SHOW_NAMES = false;
 let NO_OF_ITEMS_TO_SHOW = 2; // Minimum 2, maximum 3;
-// Valid values are "message","facetimeVideo","facetimeAudio","whatsapp","signal","telegram","email","outlook","gmail","spark","twitter","twitterrific","tweetbot"
+// Valid values are "message","facetimeVideo","facetimeAudio","whatsapp","signal","telegram","messenger","email","outlook","gmail","spark","twitter","twitterrific","tweetbot"
 let ITEMS_TO_SHOW = ["twitter","facetimeVideo","message","whatsapp","spark","gmail"];
 const CONTACTS_SYMBOL_STYLE = "person.circle.fill"; // Should be a valid SF Symbol
 
@@ -138,6 +138,7 @@ itemList = {
     whatsapp: {symbol: null, initial: "W", url: "https://wa.me/", use: "phone"},
     signal: {symbol: "circle.dashed.inset.fill", initial: "S", url: "sgnl://signal.me/#p/", use: "phone"},
     telegram: {symbol: "paperplane.circle.fill", url: "telegram://", use: "phone"},
+    messenger: {symbol: "bubble.left.circle.fill", initial: "M", url: "fb-messenger://user/", use: "phone"},
     email: {symbol: "envelope.circle.fill", url: "message://", use: "email"},
     spark: {symbol: "envelope.circle.fill", initial: "S", url: "readdle-spark://compose?recipient=", use: "email"},
     outlook: {symbol: "envelope.circle.fill", initial: "O", url: "ms-outlook://compose?to=", use: "email"},
@@ -847,6 +848,7 @@ async function selectQuickActionsInteractive() {
         whatsapp: "💬 WhatsApp",
         signal: "🔒 Signal",
         telegram: "✈️ Telegram",
+        messenger: "💬 Messenger",
         email: "📧 Email",
         outlook: "📧 Outlook",
         gmail: "📧 Gmail",
