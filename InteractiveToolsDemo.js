@@ -5,9 +5,9 @@ Description: Demonstrates interactive tools and quick action menus for Scriptabl
 ------------------------------------------------------------------------------------------------------*/
 
 // Import interactive utilities
-const fm = FileManager.iCloud();
-const utilsPath = fm.joinPath(fm.documentsDirectory(), "../lib/interactive-utils.js");
-const utils = importModule(utilsPath.replace(fm.documentsDirectory() + "/../", ""));
+// In Scriptable, modules are imported relative to the Scriptable directory
+// The lib folder should be in iCloud Drive/Scriptable/lib/
+const utils = importModule("lib/interactive-utils");
 
 // Main menu
 async function main() {
