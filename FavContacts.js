@@ -140,6 +140,16 @@ if (widgetType == "small") {
     MAX_CONTACTS = 8;
 }
 
+// Interactive setup menu when running in app (not in widget)
+if (!config.runsInWidget && config.runsInApp) {
+    const shouldShowMenu = await showInteractiveSetupMenu();
+    if (shouldShowMenu === false) {
+        // User chose to exit setup
+        Script.complete();
+        return;
+    }
+}
+
 // Update contacts.json when script is run in app
 if (!config.runsInWidget) {
     await loadContacts();
@@ -601,4 +611,211 @@ async function writeLOG(logMsg){
       fm.writeString(logFile, logMsg);
     } else console.log ("Step_" + LOG_STEP + ": " + logMsg);
     LOG_STEP++;
+}
+
+// Interactive setup menu for in-app configuration
+async function showInteractiveSetupMenu() {
+    const alert = new Alert();
+    alert.title = "FavContacts Setup";
+    alert.message = "Configure your favorite contacts widget";
+    
+    alert.addAction("🎨 Choose Theme");
+    alert.addAction("👤 Avatar Style");
+    alert.addAction("⚡ Quick Actions");
+    alert.addAction("📋 View Settings");
+    alert.addAction("✅ Update Contacts & Continue");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    
+    if (choice === -1) {
+        return false; // Cancel
+    }
+    
+    switch (choice) {
+        case 0:
+            await selectThemeInteractive();
+            return await showInteractiveSetupMenu(); // Show menu again
+            
+        case 1:
+            await selectAvatarStyleInteractive();
+            return await showInteractiveSetupMenu(); // Show menu again
+            
+        case 2:
+            await selectQuickActionsInteractive();
+            return await showInteractiveSetupMenu(); // Show menu again
+            
+        case 3:
+            await viewCurrentSettings();
+            return await showInteractiveSetupMenu(); // Show menu again
+            
+        case 4:
+            return true; // Continue with contact update
+    }
+}
+
+// Theme selector
+async function selectThemeInteractive() {
+    const themeNames = Object.keys(allColors);
+    const themeGroups = [
+        themeNames.slice(0, 10),
+        themeNames.slice(10, 20),
+        themeNames.slice(20, 30),
+        themeNames.slice(30)
+    ];
+    
+    const groupAlert = new Alert();
+    groupAlert.title = "Select Theme Group";
+    groupAlert.message = `Current theme: ${THEME}`;
+    groupAlert.addAction("Themes 1-10");
+    groupAlert.addAction("Themes 11-20");
+    groupAlert.addAction("Themes 21-30");
+    groupAlert.addAction("Themes 31+");
+    groupAlert.addCancelAction("Cancel");
+    
+    const groupChoice = await groupAlert.presentAlert();
+    if (groupChoice === -1) return;
+    
+    const themesInGroup = themeGroups[groupChoice];
+    const themeAlert = new Alert();
+    themeAlert.title = "Select Theme";
+    themeAlert.message = "Choose a color theme";
+    
+    themesInGroup.forEach(theme => {
+        themeAlert.addAction(theme);
+    });
+    themeAlert.addCancelAction("Cancel");
+    
+    const themeChoice = await themeAlert.presentAlert();
+    if (themeChoice !== -1) {
+        THEME = themesInGroup[themeChoice];
+        
+        const confirmAlert = new Alert();
+        confirmAlert.title = "Theme Selected";
+        confirmAlert.message = `Theme set to: ${THEME}`;
+        confirmAlert.addAction("OK");
+        await confirmAlert.presentAlert();
+    }
+}
+
+// Avatar style selector
+async function selectAvatarStyleInteractive() {
+    const alert = new Alert();
+    alert.title = "Select Avatar Style";
+    alert.message = `Current style: ${AVATAR_STYLE}`;
+    
+    alert.addAction("👤 Contact Photo");
+    alert.addAction("🔤 Initials");
+    alert.addAction("🔷 Symbol");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    
+    const styles = ["contact", "initials", "symbol"];
+    if (choice !== -1) {
+        AVATAR_STYLE = styles[choice];
+        
+        const confirmAlert = new Alert();
+        confirmAlert.title = "Avatar Style Selected";
+        confirmAlert.message = `Avatar style set to: ${AVATAR_STYLE}`;
+        confirmAlert.addAction("OK");
+        await confirmAlert.presentAlert();
+    }
+}
+
+// Quick actions selector
+async function selectQuickActionsInteractive() {
+    const actionDescriptions = {
+        message: "📱 Messages",
+        facetimeVideo: "📹 FaceTime Video",
+        facetimeAudio: "📞 FaceTime Audio",
+        whatsapp: "💬 WhatsApp",
+        telegram: "✈️ Telegram",
+        email: "📧 Email",
+        outlook: "📧 Outlook",
+        gmail: "📧 Gmail",
+        spark: "📧 Spark Mail",
+        twitter: "🐦 Twitter",
+        twitterrific: "🐦 Twitterrific",
+        tweetbot: "🐦 Tweetbot"
+    };
+    
+    const availableActions = Object.keys(itemList);
+    const selectedActions = [];
+    
+    // Number of items to show selector
+    const numAlert = new Alert();
+    numAlert.title = "Quick Actions Count";
+    numAlert.message = "How many quick action buttons to show?";
+    numAlert.addAction("0 (Hide all)");
+    numAlert.addAction("2 actions");
+    numAlert.addAction("3 actions");
+    numAlert.addCancelAction("Cancel");
+    
+    const numChoice = await numAlert.presentAlert();
+    if (numChoice === -1) return;
+    
+    const numActions = [0, 2, 3][numChoice];
+    NO_OF_ITEMS_TO_SHOW = numActions;
+    
+    if (numActions === 0) {
+        const confirmAlert = new Alert();
+        confirmAlert.title = "Quick Actions Hidden";
+        confirmAlert.message = "All quick action buttons will be hidden.";
+        confirmAlert.addAction("OK");
+        await confirmAlert.presentAlert();
+        return;
+    }
+    
+    // Select actions
+    for (let i = 0; i < numActions; i++) {
+        const actionAlert = new Alert();
+        actionAlert.title = `Select Action ${i + 1}`;
+        actionAlert.message = selectedActions.length > 0 
+            ? `Selected: ${selectedActions.join(", ")}`
+            : "Choose an action";
+        
+        availableActions.forEach(action => {
+            const desc = actionDescriptions[action] || action;
+            actionAlert.addAction(desc);
+        });
+        actionAlert.addCancelAction("Cancel");
+        
+        const actionChoice = await actionAlert.presentAlert();
+        if (actionChoice === -1) break;
+        
+        const selectedAction = availableActions[actionChoice];
+        if (!selectedActions.includes(selectedAction)) {
+            selectedActions.push(selectedAction);
+        }
+    }
+    
+    if (selectedActions.length > 0) {
+        ITEMS_TO_SHOW = selectedActions;
+        
+        const confirmAlert = new Alert();
+        confirmAlert.title = "Quick Actions Set";
+        confirmAlert.message = `Actions: ${selectedActions.join(", ")}`;
+        confirmAlert.addAction("OK");
+        await confirmAlert.presentAlert();
+    }
+}
+
+// View current settings
+async function viewCurrentSettings() {
+    const settings = `Current Settings:
+
+Theme: ${THEME}
+Avatar Style: ${AVATAR_STYLE}
+Show Names: ${SHOW_NAMES}
+Number of Actions: ${NO_OF_ITEMS_TO_SHOW}
+Quick Actions: ${ITEMS_TO_SHOW.join(", ")}
+
+Note: These are runtime settings. To make permanent changes, edit the script configuration section.`;
+    
+    const alert = new Alert();
+    alert.title = "Current Settings";
+    alert.message = settings;
+    alert.addAction("OK");
+    await alert.presentAlert();
 }
