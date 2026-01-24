@@ -1,0 +1,32 @@
+{
+  "name": "scriptable-scripts",
+  "version": "1.0.0",
+  "description": "A collection of Scriptable scripts for iOS widgets and lock screen customization",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.js\"",
+    "format:check": "prettier --check \"**/*.js\""
+  },
+  "keywords": [
+    "scriptable",
+    "ios",
+    "widgets",
+    "lockscreen",
+    "shortcuts"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.23.9",
+    "@babel/eslint-parser": "^7.23.10",
+    "@types/scriptable-ios": "^1.7.5",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ckyPur3/scriptable.git"
+  }
+}
