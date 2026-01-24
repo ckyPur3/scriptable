@@ -504,6 +504,9 @@ npm run format
 
 # Check if files are formatted correctly
 npm run format:check
+
+# Run all checks (lint + format check)
+npm run check
 ```
 
 ### VS Code Integration
@@ -512,6 +515,14 @@ If you use VS Code with the recommended extensions:
 - Code is automatically formatted on save
 - Linting errors appear as you type
 - IntelliSense provides autocomplete for Scriptable APIs
+
+### Continuous Integration
+
+This repository includes a GitHub Actions workflow that automatically:
+- Runs ESLint to check for code quality issues
+- Verifies code formatting with Prettier
+
+The workflow runs on all pull requests to ensure code quality standards are maintained.
 
 ### Contributing
 

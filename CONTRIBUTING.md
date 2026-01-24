@@ -56,6 +56,11 @@ This project uses ESLint and Prettier to maintain code quality and consistency.
   npm run format:check
   ```
 
+- **Run all checks** (recommended before committing):
+  ```bash
+  npm run check
+  ```
+
 ### VS Code Integration
 
 If you're using VS Code with the recommended extensions:
