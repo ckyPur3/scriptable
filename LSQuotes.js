@@ -47,6 +47,13 @@ if (!config.runsInApp) {
         if (typeof inputParams.textSize !== 'undefined') TEXT_SIZE = inputParams.textSize.toLowerCase();
     }
     if (typeof input.customQuote !== 'undefined') CUSTOM_QUOTE = input.customQuote;
+} else {
+    // Show interactive setup menu when running in app
+    const showSetup = await showInteractiveQuotesSetup();
+    if (showSetup === false) {
+        Script.complete();
+        return;
+    }
 }
 
 if (CUSTOM_QUOTE_FLAG && CUSTOM_QUOTE === null) CUSTOM_QUOTE_FLAG = false;
@@ -219,4 +226,206 @@ function containsDoubleByte(str) {
     if (!str.length) return false;
     if (str.charCodeAt(0) > 255) return true;
     return REGEX.test(str);
+}
+
+// Interactive setup menu for LSQuotes
+async function showInteractiveQuotesSetup() {
+    const alert = new Alert();
+    alert.title = "LSQuotes Setup";
+    alert.message = "Configure your quote overlay";
+    
+    alert.addAction("💬 Quote Source");
+    alert.addAction("📝 Custom Quote");
+    alert.addAction("🏷️ Quote Categories");
+    alert.addAction("🎨 Appearance");
+    alert.addAction("📋 View Settings");
+    alert.addAction("✅ Generate Preview");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    
+    if (choice === -1) {
+        return false;
+    }
+    
+    switch (choice) {
+        case 0:
+            await selectQuoteSource();
+            return await showInteractiveQuotesSetup();
+        case 1:
+            await editCustomQuote();
+            return await showInteractiveQuotesSetup();
+        case 2:
+            await selectQuoteCategories();
+            return await showInteractiveQuotesSetup();
+        case 3:
+            await configureQuoteAppearance();
+            return await showInteractiveQuotesSetup();
+        case 4:
+            await viewQuotesSettings();
+            return await showInteractiveQuotesSetup();
+        case 5:
+            return true; // Continue to generate preview
+    }
+}
+
+// Quote source selector
+async function selectQuoteSource() {
+    const alert = new Alert();
+    alert.title = "Quote Source";
+    alert.message = "Choose where to get quotes from";
+    
+    alert.addAction("💬 Random Quote (API)");
+    alert.addAction("📝 Custom Quote");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice !== -1) {
+        CUSTOM_QUOTE_FLAG = choice === 1;
+        
+        const confirm = new Alert();
+        confirm.title = "Quote Source Set";
+        confirm.message = CUSTOM_QUOTE_FLAG 
+            ? "Using custom quote"
+            : "Using random quotes from API";
+        confirm.addAction("OK");
+        await confirm.presentAlert();
+        
+        if (CUSTOM_QUOTE_FLAG && CUSTOM_QUOTE === null) {
+            await editCustomQuote();
+        }
+    }
+}
+
+// Custom quote editor
+async function editCustomQuote() {
+    const alert = new Alert();
+    alert.title = "Custom Quote";
+    alert.message = "Enter your custom quote or message";
+    alert.addTextField("Quote", CUSTOM_QUOTE || DEFAULT_QUOTE);
+    alert.addAction("Save");
+    alert.addCancelAction("Cancel");
+    
+    const response = await alert.presentAlert();
+    if (response === 0) {
+        CUSTOM_QUOTE = alert.textFieldValue(0);
+        CUSTOM_QUOTE_FLAG = true;
+        
+        const confirm = new Alert();
+        confirm.title = "Custom Quote Saved";
+        confirm.message = `Quote: "${CUSTOM_QUOTE}"`;
+        confirm.addAction("OK");
+        await confirm.presentAlert();
+    }
+}
+
+// Quote categories selector
+async function selectQuoteCategories() {
+    const availableCategories = [
+        'business', 'wisdom', 'faith', 'friendship', 
+        'success', 'inspirational', 'life', 'love',
+        'happiness', 'humorous', 'motivational'
+    ];
+    
+    const alert = new Alert();
+    alert.title = "Quote Categories";
+    alert.message = "Select categories for random quotes";
+    
+    const currentCategories = Object.keys(QUOTE_TAGS_DICTIONARY).filter(k => QUOTE_TAGS_DICTIONARY[k]);
+    alert.message += `\n\nCurrent: ${currentCategories.length > 0 ? currentCategories.join(", ") : "None"}`;
+    
+    availableCategories.forEach(cat => {
+        const enabled = QUOTE_TAGS_DICTIONARY[cat] ? "✓ " : "";
+        alert.addAction(enabled + cat);
+    });
+    alert.addAction("✅ Done");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    
+    if (choice === -1 || choice === availableCategories.length) {
+        return;
+    }
+    
+    const selectedCategory = availableCategories[choice];
+    QUOTE_TAGS_DICTIONARY[selectedCategory] = !QUOTE_TAGS_DICTIONARY[selectedCategory];
+    
+    await selectQuoteCategories(); // Show menu again
+}
+
+// Appearance settings
+async function configureQuoteAppearance() {
+    const alert = new Alert();
+    alert.title = "Appearance Settings";
+    alert.message = "Configure how quotes look";
+    
+    alert.addAction("📏 Text Size: " + TEXT_SIZE.toUpperCase());
+    alert.addAction("🌓 Dark Mode: " + (DARK_MODE ? "ON" : "OFF"));
+    alert.addAction("📐 Max Length: " + QUOTE_MAX_LENGTH);
+    alert.addAction("✅ Done");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice === -1 || choice === 3) return;
+    
+    if (choice === 0) {
+        const sizeAlert = new Alert();
+        sizeAlert.title = "Text Size";
+        sizeAlert.addAction("Small");
+        sizeAlert.addAction("Medium");
+        sizeAlert.addAction("Large");
+        sizeAlert.addCancelAction("Cancel");
+        
+        const sizeChoice = await sizeAlert.presentAlert();
+        if (sizeChoice !== -1) {
+            TEXT_SIZE = ['small', 'medium', 'large'][sizeChoice];
+        }
+        await configureQuoteAppearance();
+    } else if (choice === 1) {
+        DARK_MODE = !DARK_MODE;
+        await configureQuoteAppearance();
+    } else if (choice === 2) {
+        const lengthAlert = new Alert();
+        lengthAlert.title = "Maximum Quote Length";
+        lengthAlert.message = "Enter maximum characters for quote";
+        lengthAlert.addTextField("Length", QUOTE_MAX_LENGTH.toString());
+        lengthAlert.addAction("Save");
+        lengthAlert.addCancelAction("Cancel");
+        
+        const response = await lengthAlert.presentAlert();
+        if (response === 0) {
+            const value = parseInt(lengthAlert.textFieldValue(0));
+            if (!isNaN(value) && value > 0) {
+                QUOTE_MAX_LENGTH = value;
+            }
+        }
+        await configureQuoteAppearance();
+    }
+}
+
+// View current settings
+async function viewQuotesSettings() {
+    const activeCategories = Object.keys(QUOTE_TAGS_DICTIONARY).filter(k => QUOTE_TAGS_DICTIONARY[k]);
+    
+    const settings = `Current LSQuotes Settings:
+
+Quote Source:
+- Type: ${CUSTOM_QUOTE_FLAG ? "Custom" : "Random (API)"}
+${CUSTOM_QUOTE_FLAG ? `- Custom Quote: "${CUSTOM_QUOTE || DEFAULT_QUOTE}"` : ""}
+
+Categories:
+${activeCategories.length > 0 ? activeCategories.map(c => `- ${c}`).join("\n") : "- None (all categories)"}
+
+Appearance:
+- Text Size: ${TEXT_SIZE.toUpperCase()}
+- Dark Mode: ${DARK_MODE}
+- Max Length: ${QUOTE_MAX_LENGTH}
+
+Note: Changes are temporary. Edit script to save permanently.`;
+    
+    const alert = new Alert();
+    alert.title = "Current Settings";
+    alert.message = settings;
+    alert.addAction("OK");
+    await alert.presentAlert();
 }
