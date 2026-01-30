@@ -1,5 +1,6 @@
 # Table of Contents
 
+- [iPhone Features & AI Enhancements](#iphone-features--ai-enhancements) 🆕
 - [Interactive Tools & Setup](#interactive-tools--setup)
 - [LSWeather](#lsweather)
 - [LSForecast](#lsforecast)
@@ -8,6 +9,24 @@
 - [LSQuotes](#lsquotes)
 
 Note: all shortcuts are updated to now run on iOS 15. Download using the links below.
+
+___
+
+## iPhone Features & AI Enhancements
+
+**New!** Check out our comprehensive guide for iPhone developers: [iPhone Features & AI Enhancements Suggestions](IPHONE_FEATURES_SUGGESTIONS.md)
+
+This guide includes:
+- 🤖 **AI-Powered Features**: Smart widgets, natural language processing, and ML-based predictions
+- 📱 **iOS-Specific Enhancements**: Lock screen widgets, Dynamic Island, StandBy mode, Focus integration
+- 🎨 **Widget Improvements**: Advanced theming, gestures, multi-language support
+- ⚡ **Automation**: Siri integration, location-based triggers, NFC tags
+- 🔒 **Privacy & Security**: On-device processing, data encryption, privacy controls
+- ♿ **Accessibility**: VoiceOver, Dynamic Type, high contrast, color blind themes
+- 🚀 **Performance**: Caching, lazy loading, memory optimization
+- 👨‍💻 **Developer Experience**: Configuration wizards, debugging tools, templates
+
+Perfect for developers looking to enhance their Scriptable widgets with modern iOS capabilities!
 ___
 
 ## Interactive Tools & Setup
