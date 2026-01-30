@@ -1,5 +1,6 @@
 # Table of Contents
 
+- [Interactive Tools & Setup](#interactive-tools--setup)
 - [LSWeather](#lsweather)
 - [LSForecast](#lsforecast)
 - [FavContacts](#favcontacts)
@@ -7,6 +8,93 @@
 - [LSQuotes](#lsquotes)
 
 Note: all shortcuts are updated to now run on iOS 15. Download using the links below.
+___
+
+## Interactive Tools & Setup
+
+All scripts now include **interactive setup menus** when run directly in the Scriptable app! This makes it easy to configure settings, preview changes, and customize your widgets without editing code.
+
+### Features
+
+- 🎨 **Visual Configuration** - Use intuitive menus to select themes, colors, and layouts
+- ⚙️ **Easy Settings** - Configure all script options through interactive prompts
+- 👁️ **Live Preview** - See changes immediately when running scripts in-app
+- 💾 **Quick Actions** - Set up widget behaviors with a few taps
+- 📋 **Settings Viewer** - Review all current settings at a glance
+
+### Interactive Tools Library
+
+The `lib/interactive-utils.js` library provides reusable interactive components:
+
+- **Menu Selection** - Choose from multiple options
+- **Alert Dialogs** - Confirmations and information messages
+- **Text Input Prompts** - Enter API keys, custom text, etc.
+- **Quick Action Selectors** - Configure contact actions for FavContacts
+- **Theme Pickers** - Browse and select color themes
+- **Configuration Wizards** - Multi-step setup processes
+
+### Demo Script
+
+Run **InteractiveToolsDemo.js** in the Scriptable app to see all interactive features in action:
+
+- Theme selector demonstrations
+- Menu selection examples
+- Configuration wizard walkthrough
+- Text input prompts
+- Quick action selectors
+- Save/load configuration demos
+
+### Using Interactive Setup
+
+1. **Run any script in the Scriptable app** (not as a widget or from Shortcuts)
+2. **Interactive setup menu will appear** with configuration options
+3. **Select options** to configure the script:
+   - Choose layouts, themes, and styles
+   - Set API keys and preferences
+   - Configure display options
+   - View current settings
+4. **Generate preview** to see your configured overlay/widget
+
+**Note:** Interactive setup changes are temporary (for preview only). To make permanent changes, edit the configuration section of the script or pass parameters from Shortcuts app.
+
+### Script-Specific Interactive Features
+
+#### FavContacts Interactive Setup
+- 🎨 Choose from 40+ color themes
+- 👤 Select avatar style (contact photo, initials, or symbol)
+- ⚡ Configure quick actions (message, FaceTime, email, WhatsApp, etc.)
+- 📋 View and verify current settings
+
+#### LSWeather Interactive Setup
+- 📐 Select from pre-defined layouts (welcome, minimal, maximal, etc.)
+- 🔑 Set OpenWeather API key
+- 🌡️ Configure weather units and language
+- 📅 Calendar display options
+- 💬 Quote settings and categories
+- 📋 View all current settings
+
+#### LSForecast Interactive Setup
+- 🎨 Choose accent color (presets or custom hex)
+- 🔑 Set OpenWeather API key
+- 🌡️ Configure weather units and language
+- ⏰ Set number of hours/days to display
+- 📊 Display settings (icons, graphs, transparency)
+
+#### LSMatrix Interactive Setup
+- 🌓 Dark/Light mode toggle
+- 🔢 Binary vs Matrix character style
+- 🔐 Cryptic text option
+- 💬 Matrix movie quotes browser
+- 📅 Calendar event settings
+- ⏰ 12/24 hour time format
+
+#### LSQuotes Interactive Setup
+- 💬 Choose quote source (random API or custom)
+- 📝 Edit custom quotes
+- 🏷️ Select quote categories (business, wisdom, faith, etc.)
+- 📏 Text size and appearance settings
+- 🌓 Dark/Light mode
+
 ___
 
 ## LSWeather
