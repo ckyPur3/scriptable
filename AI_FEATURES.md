@@ -333,8 +333,7 @@ iCloud Drive/
 ├─ Scriptable/
 │  ├─ lib/
 │  │  ├─ ai-utils.js
-│  │  ├─ api-helpers.js
-│  │  └─ interactive-utils.js
+│  │  └─ api-helpers.js
 │  ├─ AIAssistant.js
 │  ├─ SmartNotifications.js
 │  ├─ AIPhotoAnalyzer.js

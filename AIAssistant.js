@@ -28,6 +28,7 @@ const { AIService, AITextUtils, AIAutomation } = importModule("lib/ai-utils");
 // ===== CONFIGURATION =====
 const AI_PROVIDER = "openai"; // "openai" or "claude"
 const API_KEY = ""; // Set your API key here or it will prompt you
+                    // SECURITY: Do not commit API keys to version control!
 
 // ===== MAIN SCRIPT =====
 
@@ -140,7 +141,7 @@ async function askQuestion() {
         const notification = new Notification();
         notification.title = "AI Assistant";
         notification.body = "Thinking...";
-        await notification.schedule();
+        await notification.schedule(); // Immediate notification (no date parameter)
         
         const answer = await ai.chat(question);
         
@@ -169,7 +170,7 @@ async function summarizeClipboard() {
         const notification = new Notification();
         notification.title = "AI Assistant";
         notification.body = "Summarizing...";
-        await notification.schedule();
+        await notification.schedule(); // Immediate notification
         
         const summary = await textUtils.summarize(clipboardText, 100);
         
@@ -207,7 +208,7 @@ async function analyzeImage() {
         const notification = new Notification();
         notification.title = "AI Assistant";
         notification.body = "Analyzing image...";
-        await notification.schedule();
+        await notification.schedule(); // Immediate notification
         
         const analysis = await ai.analyzeImage(photos[0], question);
         
@@ -467,7 +468,7 @@ async function showResult(title, text, copyToClipboard = false) {
         const notification = new Notification();
         notification.title = "Copied";
         notification.body = "Text copied to clipboard";
-        await notification.schedule();
+        await notification.schedule(); // Immediate notification
     }
 }
 

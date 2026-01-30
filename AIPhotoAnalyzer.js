@@ -26,6 +26,7 @@ const { AIService } = importModule("lib/ai-utils");
 
 // ===== CONFIGURATION =====
 const API_KEY = ""; // Set your OpenAI API key here
+                    // SECURITY: Do not commit API keys to version control!
 
 // ===== MAIN SCRIPT =====
 
@@ -113,7 +114,7 @@ async function analyzeImageWithAction(image, action) {
             const notification = new Notification();
             notification.title = "AI Photo Analyzer";
             notification.body = "Analyzing image...";
-            await notification.schedule();
+            await notification.schedule(); // Immediate notification
         }
         
         let result;
@@ -260,7 +261,7 @@ async function showResult(title, content, copyable = false) {
         const notification = new Notification();
         notification.title = "Copied";
         notification.body = "Result copied to clipboard";
-        await notification.schedule();
+        await notification.schedule(); // Immediate notification
     }
 }
 

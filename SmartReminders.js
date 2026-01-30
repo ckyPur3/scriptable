@@ -27,6 +27,7 @@ const { AIService, AIAutomation } = importModule("lib/ai-utils");
 // ===== CONFIGURATION =====
 const AI_PROVIDER = "openai"; // "openai" or "claude"
 const API_KEY = ""; // Set your API key here
+                    // SECURITY: Do not commit API keys to version control!
 
 // ===== MAIN SCRIPT =====
 
@@ -168,12 +169,9 @@ Be smart about interpreting relative times like "tomorrow", "next week", "in 2 h
     });
     
     try {
-        // Extract JSON from response
-        const jsonMatch = response.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-            return JSON.parse(jsonMatch[0]);
-        }
-        return JSON.parse(response);
+        // Import JSON extraction utility
+        const { extractJSONFromResponse } = importModule("lib/ai-utils");
+        return extractJSONFromResponse(response);
     } catch (e) {
         console.error("Failed to parse AI response:", response);
         throw new Error("Could not parse reminder. Please try rephrasing.");
@@ -423,7 +421,7 @@ async function showSuccess(reminderData) {
     const notification = new Notification();
     notification.title = "Reminder Created";
     notification.body = reminderData.title;
-    await notification.schedule();
+    await notification.schedule(); // Immediate notification
 }
 
 /**

@@ -27,6 +27,7 @@ const { AIService, AIAutomation } = importModule("lib/ai-utils");
 // ===== CONFIGURATION =====
 const AI_PROVIDER = "openai"; // "openai" or "claude"
 const API_KEY = ""; // Set your API key here
+                    // SECURITY: Do not commit API keys to version control!
 
 // Notification settings
 const NOTIFICATION_TYPES = {
@@ -129,7 +130,7 @@ async function generateNotification(type) {
             });
         }
         
-        await notification.schedule();
+        await notification.schedule(); // Immediate notification
         
         // Show confirmation in app
         if (config.runsInApp) {
