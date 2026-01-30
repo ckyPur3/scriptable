@@ -199,17 +199,18 @@ async function testRESTAPI(baseUrl, endpoints) {
  * Benchmark API endpoint
  * @param {Object} requestConfig - Request configuration
  * @param {number} iterations - Number of iterations
+ * @param {number} delayMs - Delay between requests in milliseconds (default: 1000)
  * @returns {Promise<Object>} Benchmark results
  */
-async function benchmarkEndpoint(requestConfig, iterations = 5) {
+async function benchmarkEndpoint(requestConfig, iterations = 5, delayMs = 1000) {
     const results = [];
     
     for (let i = 0; i < iterations; i++) {
         const result = await executeRequest(requestConfig);
         results.push(result);
         
-        if (i < iterations - 1) {
-            await DevTools.sleep(1000); // Wait 1 second between requests
+        if (i < iterations - 1 && delayMs > 0) {
+            await DevTools.sleep(delayMs); // Configurable delay between requests
         }
     }
     

@@ -21,6 +21,19 @@ let GITHUB_TOKEN = DevTools.getFromKeychain("github_token") || "";
  * @param {string} token - GitHub personal access token
  */
 function setGitHubToken(token) {
+    // Validate token format
+    if (!token || typeof token !== 'string') {
+        throw new Error("Invalid token: must be a non-empty string");
+    }
+    
+    // GitHub token prefixes: ghp_ (personal), gho_ (OAuth), ghu_ (user), ghs_ (server), ghr_ (refresh)
+    const validPrefixes = ['ghp_', 'gho_', 'ghu_', 'ghs_', 'ghr_'];
+    const hasValidPrefix = validPrefixes.some(prefix => token.startsWith(prefix));
+    
+    if (!hasValidPrefix && token.length < 40) {
+        console.warn("Warning: Token doesn't match expected GitHub token format. Expected format: ghp_xxxx... or at least 40 characters");
+    }
+    
     GITHUB_TOKEN = token;
     DevTools.saveToKeychain("github_token", token);
 }

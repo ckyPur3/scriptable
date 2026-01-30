@@ -480,6 +480,8 @@ async function runDueAutomations() {
     const automations = getEnabledAutomations();
     const results = [];
     const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
     
     for (const automation of automations) {
         let shouldRun = false;
@@ -488,8 +490,15 @@ async function runDueAutomations() {
             continue;
         }
         
-        // Simplified trigger checking
-        shouldRun = true; // In real implementation, would check trigger time
+        // Check trigger conditions
+        if (automation.trigger === "hourly") {
+            shouldRun = true; // Run every time for hourly
+        } else if (automation.trigger === "daily" && automation.triggerTime) {
+            // Parse trigger time (format: "HH:MM")
+            const [triggerHour, triggerMinute] = automation.triggerTime.split(':').map(Number);
+            // Run if current time matches trigger time (within 1 minute window)
+            shouldRun = (currentHour === triggerHour && Math.abs(currentMinute - triggerMinute) <= 1);
+        }
         
         if (shouldRun) {
             const result = await executeAutomation(automation);
