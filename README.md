@@ -887,3 +887,122 @@ For issues or feature requests, please open an issue on GitHub.
 ## License
 
 These scripts are provided as-is for personal and educational use.
+
+___
+
+## AITaskAutomation
+
+AI-powered task automation and workflow management system for iOS developers.
+
+### Features - AITaskAutomation
+
+1. **Automated Workflows**
+   - Daily standup report generation
+   - Code quality monitoring
+   - API health checks
+   - Custom automation creation
+
+2. **Triggers**
+   - Daily scheduled tasks
+   - Hourly monitoring
+   - Manual execution
+   - Custom schedules
+
+3. **Action Types**
+   - GitHub activity tracking
+   - Commit analysis
+   - PR status monitoring
+   - API endpoint testing
+   - Report generation
+   - Notification sending
+   - Alert management
+
+4. **Execution Tracking**
+   - Complete execution history
+   - Success/failure rates
+   - Performance metrics
+   - Duration tracking
+
+5. **Pre-built Automations**
+   - **Daily Standup Report**: Summarize GitHub activity
+   - **Code Quality Monitor**: Track code metrics
+   - **API Health Monitor**: Test critical endpoints
+
+### Installation - AITaskAutomation
+
+1. Download `AITaskAutomation.js` and `iOSDevTools.js` to Scriptable folder
+2. Run the script to configure automations
+
+### Usage - AITaskAutomation
+
+1. **View Automations**: Browse and manage all automations
+2. **Run All**: Execute all enabled automations
+3. **View Log**: Review execution history
+
+### Automation Actions
+
+Each automation can include multiple actions:
+
+- `github_activity` - Track GitHub commits, PRs, issues
+- `analyze_commits` - Analyze code changes
+- `check_pr_status` - Monitor pull request status
+- `test_endpoints` - Test API endpoint health
+- `format_report` - Generate formatted reports
+- `generate_summary` - Create summaries
+- `notify` - Send notifications
+- `alert_on_failure` - Alert when thresholds exceeded
+
+### Widget - AITaskAutomation
+
+Shows automation statistics: active automations, total runs, success rate.
+
+___
+
+## Quick Start Guide
+
+### For iOS Developers
+
+1. **Install Core Library**
+   ```
+   Download iOSDevTools.js to Scriptable folder
+   ```
+
+2. **Choose Your Tools**
+   - Need GitHub integration? → `DevGitHub.js`
+   - Need API testing? → `DevAPITester.js`
+   - Need code snippets? → `DevCodeSnippets.js`
+
+3. **Add AI Capabilities**
+   - AI prompts? → `AIPromptManager.js`
+   - Automation? → `AITaskAutomation.js`
+
+4. **Orchestrate Everything**
+   - Download `AgentOrchestrator.js` to coordinate all tools
+
+### Example Workflows
+
+**Morning Routine**
+```
+1. AgentOrchestrator runs morning workflow
+2. Checks GitHub notifications (DevGitHub)
+3. Reviews PR status (DevGitHub)
+4. Tests critical APIs (DevAPITester)
+5. Sends daily summary notification
+```
+
+**Code Review Process**
+```
+1. DevGitHub lists open PRs
+2. AIPromptManager provides review template
+3. DevCodeSnippets suggests best practices
+4. Result sent via notification
+```
+
+**API Development**
+```
+1. DevAPITester tests new endpoint
+2. DevCodeSnippets provides example code
+3. AIPromptManager generates documentation prompt
+4. Results logged for review
+```
+
