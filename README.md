@@ -1,10 +1,21 @@
 # Table of Contents
 
+## Original Scripts
 - [LSWeather](#lsweather)
 - [LSForecast](#lsforecast)
 - [FavContacts](#favcontacts)
 - [LSMatrix](#lsmatrix)
 - [LSQuotes](#lsquotes)
+
+## Development Tools for iOS Developers
+- [iOSDevTools](#iosdevtools) - Comprehensive tool library
+- [DevGitHub](#devgithub) - GitHub integration
+- [DevAPITester](#devapitester) - API testing and debugging
+- [DevCodeSnippets](#devcodesnippets) - Code snippet manager
+
+## AI & Agent Tools
+- [AIPromptManager](#aipromptmanager) - AI prompt templates and management
+- [AgentOrchestrator](#agentorchestrator) - Agent orchestration and workflow automation
 
 Note: all shortcuts are updated to now run on iOS 15. Download using the links below.
 ___
@@ -466,3 +477,413 @@ The script is embedded in the Shortcuts app. In standalone mode you will only se
 1. To use dark box with light text set `DARK_MODE` to either `true` else `false`
 1. Configure categories setting `QUOTE_TAGS_DICTIONARY` dictionary. Go to [this](https://api.quotable.io/tags) link to get list of available tags/categories.
 1. To limit no. of characters in a quote, set `QUOTE_MAX_LENGTH`.
+___
+
+# Development Tools for iOS Developers
+
+The following tools provide comprehensive development utilities specifically designed for iOS iPhone developers using Scriptable.
+
+## iOSDevTools
+
+A comprehensive utility library providing essential functions for iOS development.
+
+### Features - iOSDevTools
+
+1. **Device Utilities**
+   - Get detailed device information (model, OS version, battery, storage)
+   - Check battery status and low battery mode
+   - Network connectivity testing
+
+2. **Network & API Utilities**
+   - HTTP requests with automatic retry logic and exponential backoff
+   - Request caching with TTL support
+   - Robust error handling
+
+3. **File & Storage Management**
+   - Save/read data with automatic JSON serialization
+   - Directory creation and management
+   - File listing and deletion
+   - Support for both iCloud and local storage
+
+4. **UI & Notification Utilities**
+   - Custom alerts with multiple options
+   - Input dialogs
+   - Local notifications with scheduling
+   - Clipboard operations
+
+5. **Security & Keychain**
+   - Secure storage for sensitive data
+   - Easy keychain access functions
+   - Token and credential management
+
+6. **Logging & Debugging**
+   - Advanced logger with multiple levels (INFO, WARN, ERROR, DEBUG)
+   - File-based logging
+   - Timestamp support
+
+7. **Utility Functions**
+   - Date formatting and relative time
+   - UUID generation
+   - Debounce and throttle functions
+   - Sleep/delay utilities
+
+### Installation - iOSDevTools
+
+1. Download `iOSDevTools.js` to your Scriptable folder
+2. Import in your scripts: `const DevTools = importModule('iOSDevTools');`
+3. Use any of the provided functions
+
+### Usage Example - iOSDevTools
+
+```javascript
+const DevTools = importModule('iOSDevTools');
+
+// Get device info
+const deviceInfo = DevTools.getDeviceInfo();
+console.log(`Device: ${deviceInfo.model}, iOS ${deviceInfo.systemVersion}`);
+
+// Make API request with retry
+const result = await DevTools.httpRequestWithRetry('https://api.github.com/users/octocat');
+if (result.success) {
+    console.log(result.data);
+}
+
+// Save to keychain
+DevTools.saveToKeychain('api_token', 'my-secret-token');
+
+// Save data to file
+DevTools.saveToFile('mydata.json', { key: 'value' });
+
+// Create logger
+const logger = new DevTools.Logger('MyApp', true);
+logger.info('Application started');
+```
+
+___
+
+## DevGitHub
+
+GitHub integration for managing repositories, issues, and pull requests directly from your iPhone.
+
+### Features - DevGitHub
+
+1. **Repository Management**
+   - List and browse repositories
+   - View repository details and stats
+   - Search repositories
+
+2. **Issues & Pull Requests**
+   - List open/closed issues
+   - Create new issues
+   - View pull requests
+   - Track PR status
+
+3. **Notifications**
+   - Check GitHub notifications
+   - Filter unread notifications
+
+4. **Commits**
+   - View recent commits
+   - Commit history
+
+5. **Dashboard Widget**
+   - Repository stats
+   - Open issues and PRs count
+   - Star and fork counts
+
+### Installation - DevGitHub
+
+1. Download `DevGitHub.js` and `iOSDevTools.js` to Scriptable folder
+2. Run the script and enter your GitHub personal access token
+3. Token is securely stored in iOS keychain
+
+### Setup - DevGitHub
+
+1. Create a GitHub Personal Access Token:
+   - Go to GitHub Settings → Developer Settings → Personal Access Tokens
+   - Create new token with `repo`, `user`, and `notifications` scopes
+   - Copy the token
+
+2. Run `DevGitHub.js` and enter the token when prompted
+
+### Widget Setup - DevGitHub
+
+Add widget to home screen with parameter: `owner/repo`
+Example: `github/github`
+
+### Usage - DevGitHub
+
+- **App Mode**: Quick actions menu for repository management
+- **Widget Mode**: Shows repository statistics
+
+___
+
+## DevAPITester
+
+Comprehensive API testing and debugging tool for iOS developers.
+
+### Features - DevAPITester
+
+1. **Request Builder**
+   - Support for GET, POST, PUT, DELETE methods
+   - Custom headers configuration
+   - JSON request body support
+   - Request timeout settings
+
+2. **Request History**
+   - Automatic request logging
+   - Response time tracking
+   - Success/failure tracking
+   - View past requests
+
+3. **Saved Requests**
+   - Save request templates
+   - Quick re-execution
+   - Organize by name
+
+4. **Benchmarking**
+   - Performance testing
+   - Multiple iteration support
+   - Average, min, max response times
+   - Success rate tracking
+
+5. **Response Viewer**
+   - JSON/text response display
+   - Copy to clipboard
+   - Response headers
+   - Status codes
+
+### Installation - DevAPITester
+
+1. Download `DevAPITester.js` and `iOSDevTools.js` to Scriptable folder
+2. Run the script to access the API testing interface
+
+### Usage - DevAPITester
+
+1. **New Request**: Build and execute custom API requests
+2. **Saved Requests**: Access previously saved request templates
+3. **History**: Review past API calls and responses
+4. **Quick Test**: Rapidly test a URL with GET request
+
+___
+
+## DevCodeSnippets
+
+Code snippet manager to save, organize, and reuse code snippets on your iPhone.
+
+### Features - DevCodeSnippets
+
+1. **Snippet Management**
+   - Save code snippets with syntax
+   - Organize by categories
+   - Tag-based organization
+   - Full-text search
+
+2. **Pre-loaded Snippets**
+   - Async/await patterns
+   - Retry logic with backoff
+   - Debounce functions
+   - API request templates
+   - Scriptable widget templates
+   - Cache management
+   - Object utilities
+
+3. **Organization**
+   - Categories: Patterns, Utilities, Scriptable, Network, Storage
+   - Tag system for cross-referencing
+   - Search functionality
+
+4. **Quick Access**
+   - Browse by category
+   - Browse by tags
+   - Search across all fields
+   - One-tap copy to clipboard
+
+### Installation - DevCodeSnippets
+
+1. Download `DevCodeSnippets.js` and `iOSDevTools.js` to Scriptable folder
+2. Run the script to access the snippet library
+
+### Usage - DevCodeSnippets
+
+- **Browse**: View snippets organized by category
+- **Search**: Find snippets by keyword
+- **Tags**: Browse by tag
+- **New Snippet**: Add your own code snippets
+
+___
+
+# AI & Agent Tools
+
+## AIPromptManager
+
+AI prompt template library and management system for developers working with AI assistants.
+
+### Features - AIPromptManager
+
+1. **Pre-built Prompt Templates**
+   - Code Review
+   - Bug Fix Assistant
+   - API Documentation Generator
+   - Test Case Generator
+   - Code Refactoring
+   - Code Explanation
+   - Performance Optimization
+   - Feature Specification
+   - Data Structure Design
+   - Debugging Assistant
+
+2. **Template Variables**
+   - Dynamic variable substitution
+   - Automatic variable extraction
+   - Interactive variable filling
+
+3. **Organization**
+   - Category-based organization
+   - Custom prompt creation
+   - Template editing
+
+4. **Quick Usage**
+   - Fill template with values
+   - Copy to clipboard
+   - Ready for AI assistants (ChatGPT, Claude, etc.)
+
+### Installation - AIPromptManager
+
+1. Download `AIPromptManager.js` and `iOSDevTools.js` to Scriptable folder
+2. Run the script to access the prompt library
+
+### Usage - AIPromptManager
+
+1. **Use Prompt**: Select a template, fill variables, copy to clipboard
+2. **Create Prompt**: Build your own custom prompt templates
+3. **Browse Prompts**: View all available prompts by category
+
+### Widget - AIPromptManager
+
+Shows prompt library statistics and quick access.
+
+___
+
+## AgentOrchestrator
+
+Intelligent agent system that orchestrates multiple tools and automates workflows.
+
+### Features - AgentOrchestrator
+
+1. **Agent Management**
+   - GitHub Agent - Repository and issue management
+   - API Testing Agent - Endpoint testing
+   - AI Assistant Agent - Code review and prompts
+   - Weather Agent - Weather information
+   - Contacts Agent - Communication
+
+2. **Task Routing**
+   - Intelligent task assignment
+   - Automatic agent selection
+   - Confidence scoring
+
+3. **Workflow Automation**
+   - Pre-defined workflows
+   - Morning dev routine
+   - API health checks
+   - Code review workflows
+   - Custom workflow creation
+
+4. **Task Management**
+   - Create and track tasks
+   - Priority levels
+   - Status tracking (pending, in-progress, completed, failed)
+   - Task history
+
+5. **Scheduling**
+   - Daily workflows
+   - Hourly checks
+   - Manual execution
+
+### Installation - AgentOrchestrator
+
+1. Download all scripts to Scriptable folder:
+   - `AgentOrchestrator.js`
+   - `iOSDevTools.js`
+   - `DevGitHub.js`
+   - `DevAPITester.js`
+   - `AIPromptManager.js`
+
+2. Run `AgentOrchestrator.js`
+
+### Usage - AgentOrchestrator
+
+1. **Dashboard**: View all available agents and recent tasks
+2. **New Task**: Create a task and let the orchestrator route it to the appropriate agent
+3. **Workflows**: Execute or manage automated workflows
+4. **Settings**: Configure agent preferences
+
+### Pre-defined Workflows
+
+1. **Morning Dev Routine**
+   - Check weather forecast
+   - Review GitHub notifications
+   - List recent repositories
+
+2. **API Health Check**
+   - Test critical endpoints
+   - Monitor response times
+
+3. **Code Review Workflow**
+   - List open pull requests
+   - AI-powered code review
+
+### Widget - AgentOrchestrator
+
+Shows orchestrator statistics: pending tasks, completed tasks, available agents.
+
+___
+
+## Complete Installation
+
+To get the full development toolkit:
+
+```
+iCloud Drive/
+├─ Scriptable/
+│  ├─ iOSDevTools.js
+│  ├─ DevGitHub.js
+│  ├─ DevAPITester.js
+│  ├─ DevCodeSnippets.js
+│  ├─ AIPromptManager.js
+│  ├─ AgentOrchestrator.js
+│  ├─ LSWeather.js
+│  ├─ LSForecast.js
+│  ├─ FavContacts.js
+│  ├─ LSMatrix.js
+│  └─ LSQuotes.js
+```
+
+## Integration Example
+
+All development tools can work together through the Agent Orchestrator:
+
+```javascript
+// Example: Automated workflow
+// 1. Agent Orchestrator routes task
+// 2. DevGitHub checks for new PRs
+// 3. AIPromptManager generates review prompt
+// 4. DevAPITester validates API endpoints
+// 5. DevCodeSnippets provides reference code
+```
+
+## Requirements
+
+- iOS 14.4 or later
+- Scriptable app (free on App Store)
+- iCloud Drive enabled
+- For DevGitHub: GitHub personal access token
+
+## Support
+
+For issues or feature requests, please open an issue on GitHub.
+
+## License
+
+These scripts are provided as-is for personal and educational use.
