@@ -1,5 +1,6 @@
 # Table of Contents
 
+- [🤖 AI Features & Autonomous Capabilities](#-ai-features--autonomous-capabilities) ⭐ NEW!
 - [Interactive Tools & Setup](#interactive-tools--setup)
 - [LSWeather](#lsweather)
 - [LSForecast](#lsforecast)
@@ -8,6 +9,92 @@
 - [LSQuotes](#lsquotes)
 
 Note: all shortcuts are updated to now run on iOS 15. Download using the links below.
+___
+
+## 🤖 AI Features & Autonomous Capabilities
+
+**NEW!** This repository now includes advanced AI-powered features that enable autonomous operation on your iPhone!
+
+### AI-Powered Scripts
+
+- **🧠 AIAssistant.js** - Your personal AI assistant for quick tasks
+  - Ask questions and get instant answers
+  - Summarize clipboard text
+  - Analyze images with AI vision
+  - Generate creative content
+  - Improve and rewrite text
+  - Extract information intelligently
+
+- **📱 SmartNotifications.js** - Context-aware intelligent notifications
+  - Morning briefings with personalized content
+  - Weather-based alerts and suggestions
+  - Calendar summaries and reminders
+  - Evening reflections
+  - Motivational messages
+
+- **📸 AIPhotoAnalyzer.js** - Analyze photos with AI
+  - Describe photo content in detail
+  - Extract text from images (OCR)
+  - Identify objects and scenes
+  - Suggest tags for organization
+  - Generate accessibility descriptions
+  - Get photo improvement tips
+
+- **⏰ SmartReminders.js** - Natural language reminder creation
+  - "Remind me tomorrow at 3pm to call mom"
+  - Smart time and date interpretation
+  - Priority detection
+  - Recurring reminder support
+
+### AI & API Libraries
+
+- **🛠️ lib/ai-utils.js** - Comprehensive AI utilities
+  - Support for OpenAI and Claude APIs
+  - Image analysis capabilities
+  - Text summarization and improvement
+  - Smart automation helpers
+  - Sentiment analysis
+  - Content generation
+
+- **🔌 lib/api-helpers.js** - External API integration
+  - REST API client
+  - Webhook manager (IFTTT, Zapier, Make)
+  - Authentication helpers
+  - Pre-built integrations: Notion, Airtable, GitHub, Slack, Discord, Telegram
+  - Rate limiting
+  - Data storage utilities
+
+### Quick Start
+
+1. **Install**: Copy scripts to your Scriptable folder in iCloud Drive
+2. **Configure**: Set your OpenAI or Claude API key in the scripts
+3. **Run**: Open any AI script in Scriptable app for interactive menus
+
+### Full Documentation
+
+📖 See **[AI_FEATURES.md](AI_FEATURES.md)** for complete documentation including:
+- Detailed feature descriptions
+- Setup and configuration guides
+- Usage examples and code snippets
+- External integration tutorials
+- Best practices and troubleshooting
+
+### Example Use Cases
+
+- **Daily Automation**: Morning briefings, evening summaries, weather alerts
+- **Photo Management**: Analyze and organize photos with AI tags
+- **Smart Reminders**: Create reminders using natural language
+- **Text Processing**: Summarize articles, extract info, improve writing
+- **External Integrations**: Connect to Notion, Slack, GitHub, and more
+- **Webhooks**: Trigger IFTTT, Zapier, or custom automations
+
+### Requirements
+
+- iOS 15 or later
+- Scriptable app
+- API key from OpenAI or Anthropic (Claude)
+- Internet connection for AI features
+
 ___
 
 ## Interactive Tools & Setup
