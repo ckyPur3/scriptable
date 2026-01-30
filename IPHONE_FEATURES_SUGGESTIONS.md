@@ -52,14 +52,15 @@ async function getSmartContactSuggestions() {
 **Description:** Integrate AI-powered quote generation or personalized motivation messages.
 
 **Implementation Ideas:**
-- Use iOS 17+ on-device language models for generating personalized quotes
+- Use Natural Language framework for text analysis and sentiment detection
 - Create context-aware motivational messages based on calendar events (e.g., "Big meeting today" → encouraging quote)
 - Generate weather-appropriate inspirational messages
+- For advanced text generation, integrate third-party AI APIs with privacy considerations
 
 **APIs to Use:**
-- Natural Language framework
-- Sentiment Analysis API
-- Third-party AI APIs (OpenAI, Anthropic) with privacy considerations
+- Natural Language framework (for text analysis, tokenization, sentiment)
+- Third-party AI APIs (OpenAI, Anthropic) for text generation (cloud-based, privacy considerations apply)
+- Local rule-based generation using templates and context awareness
 
 ### 3. Intelligent Calendar Event Summarization
 **Description:** Use AI to summarize calendar events and provide smart recommendations.
@@ -221,12 +222,17 @@ async function getContentForFocusMode() {
 - Increment/decrement controls for settings
 - Checkbox for completing tasks
 
-**Example:**
+**Example (Conceptual - Native WidgetKit):**
 ```javascript
-// Interactive widget button
-const callButton = widget.addButton("Call", () => {
-  Phone.call(contact.phoneNumber);
-});
+// Note: Interactive buttons in iOS 17 use native WidgetKit, not directly available in Scriptable
+// In Scriptable, use URL schemes for actions:
+
+// Set tap URL for the entire widget
+widget.url = `tel:${contact.phoneNumber}`;
+
+// Or for specific widget elements
+const contactStack = widget.addStack();
+contactStack.url = `tel:${contact.phoneNumber}`;
 ```
 
 ### 7. App Intents & Shortcuts (iOS 16+)
@@ -724,9 +730,10 @@ class DataCache {
 
 ### Weather APIs
 - **OpenWeatherMap** (current): Reliable and free tier available
-- **WeatherKit** (Apple): Native iOS integration, privacy-focused
-- **Dark Sky** (deprecated but alternatives): More accurate hyperlocal forecasts
+- **WeatherKit** (Apple): Native iOS integration, privacy-focused, requires Apple Developer account
+- **Tomorrow.io** (formerly ClimaCell): Hyperlocal forecasts and severe weather alerts
 - **AccuWeather**: Extended forecasts and severe weather alerts
+- **Visual Crossing**: Historical and forecast data with generous free tier
 
 ### AI/ML APIs
 - **Apple Core ML**: On-device machine learning

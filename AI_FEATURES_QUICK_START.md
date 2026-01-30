@@ -95,10 +95,12 @@ function getSmartContactSuggestions(allContacts) {
 async function getFocusMode() {
   // Using Shortcuts integration to pass focus mode
   // In Shortcuts: Pass "Work", "Personal", "Sleep", etc.
-  const args = args.widgetParameter;
   
-  if (args && args.focusMode) {
-    return args.focusMode;
+  if (args.widgetParameter && typeof args.widgetParameter === 'object') {
+    const params = args.widgetParameter;
+    if (params.focusMode) {
+      return params.focusMode;
+    }
   }
   
   // Fallback: Detect based on time
@@ -426,7 +428,8 @@ async function getAllData() {
 
 ### 1. Secure API Key Storage
 ```javascript
-// Store API keys in Keychain (Scriptable uses FileManager)
+// Store API keys using FileManager (encrypted at rest by iOS)
+// Note: For maximum security, consider using Shortcuts to pass keys at runtime
 class SecureStorage {
   constructor() {
     this.fm = FileManager.iCloud();
@@ -474,9 +477,10 @@ function createPrivacyModeWidget(widget, enabled) {
   }
 }
 
-// Toggle privacy mode based on context
-const isUnlocked = Device.isScreenUnlocked();  // Not available, conceptual
-const privacyMode = !isUnlocked;  // Enable when screen is locked
+// Toggle privacy mode via widget parameter or time-based
+// Note: Direct screen lock detection is not available in Scriptable
+const params = args.widgetParameter || {};
+const privacyMode = params.privacyMode || false;
 ```
 
 ## 📱 Complete Example: Smart Weather Widget
