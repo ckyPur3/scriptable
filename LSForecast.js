@@ -72,6 +72,16 @@ if (!config.runsInApp) {
   if (inputParams.apiKey) WEATHER_API_KEY = inputParams.apiKey;
   if (inputParams.accent) ACCENT_COLOR = inputParams.accent;
   if (inputParams.alpha >= 0 && inputParams.alpha <= 1) ALPHA = inputParams.alpha;
+<<<<<<< HEAD
+=======
+} else {
+  // Show interactive setup menu when running in app
+  const showSetup = await showInteractiveForecastSetup();
+  if (showSetup === false) {
+    Script.complete();
+    return;
+  }
+>>>>>>> origin/master
 }
 
 try {
@@ -771,4 +781,268 @@ function getLanguage() {
       WEATHER_LANG = "en";
   };
   return text[language];
+<<<<<<< HEAD
+=======
+}
+
+// Interactive setup menu for LSForecast
+async function showInteractiveForecastSetup() {
+    const alert = new Alert();
+    alert.title = "LSForecast Setup";
+    alert.message = "Configure your weather forecast overlay";
+    
+    alert.addAction("🎨 Accent Color");
+    alert.addAction("🔑 Set API Key");
+    alert.addAction("🌡️ Weather Options");
+    alert.addAction("📊 Display Settings");
+    alert.addAction("📋 View Settings");
+    alert.addAction("✅ Generate Preview");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    
+    if (choice === -1) {
+        return false;
+    }
+    
+    switch (choice) {
+        case 0:
+            await selectAccentColorInteractive();
+            return await showInteractiveForecastSetup();
+        case 1:
+            await setForecastAPIKeyInteractive();
+            return await showInteractiveForecastSetup();
+        case 2:
+            await configureWeatherOptions();
+            return await showInteractiveForecastSetup();
+        case 3:
+            await configureDisplaySettings();
+            return await showInteractiveForecastSetup();
+        case 4:
+            await viewForecastSettings();
+            return await showInteractiveForecastSetup();
+        case 5:
+            return true; // Continue to generate preview
+    }
+}
+
+// Accent color selector
+async function selectAccentColorInteractive() {
+    const presetColors = {
+        "White": "#FFFFFF",
+        "Light Blue": "#83a598",
+        "Orange": "#fe8019",
+        "Red": "#fb4934",
+        "Yellow": "#b8bb26",
+        "Green": "#b8bb26",
+        "Purple": "#d3869b",
+        "Aqua": "#8ec07c"
+    };
+    
+    const alert = new Alert();
+    alert.title = "Select Accent Color";
+    alert.message = `Current: ${ACCENT_COLOR}`;
+    
+    Object.keys(presetColors).forEach(name => {
+        alert.addAction(name);
+    });
+    alert.addAction("Custom Hex Code");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice === -1) return;
+    
+    const colorNames = Object.keys(presetColors);
+    if (choice < colorNames.length) {
+        ACCENT_COLOR = presetColors[colorNames[choice]];
+    } else {
+        // Custom color
+        const customAlert = new Alert();
+        customAlert.title = "Custom Color";
+        customAlert.message = "Enter hex color code (e.g., #FF00FF)";
+        customAlert.addTextField("Hex Code", ACCENT_COLOR);
+        customAlert.addAction("Save");
+        customAlert.addCancelAction("Cancel");
+        
+        const response = await customAlert.presentAlert();
+        if (response === 0) {
+            const newColor = customAlert.textFieldValue(0);
+            try {
+                new Color(newColor); // Test if valid
+                ACCENT_COLOR = newColor;
+            } catch (error) {
+                const errorAlert = new Alert();
+                errorAlert.title = "Invalid Color";
+                errorAlert.message = "Please enter a valid hex color code.";
+                errorAlert.addAction("OK");
+                await errorAlert.presentAlert();
+                return await selectAccentColorInteractive();
+            }
+        }
+    }
+    
+    const confirm = new Alert();
+    confirm.title = "Color Selected";
+    confirm.message = `Accent color: ${ACCENT_COLOR}`;
+    confirm.addAction("OK");
+    await confirm.presentAlert();
+}
+
+// API Key configuration
+async function setForecastAPIKeyInteractive() {
+    const alert = new Alert();
+    alert.title = "OpenWeather API Key";
+    alert.message = "Enter your OpenWeather API key.\nGet one free at openweathermap.org";
+    alert.addTextField("API Key", WEATHER_API_KEY);
+    alert.addAction("Save");
+    alert.addCancelAction("Cancel");
+    
+    const response = await alert.presentAlert();
+    if (response === 0) {
+        WEATHER_API_KEY = alert.textFieldValue(0);
+        
+        const confirm = new Alert();
+        confirm.title = "API Key Saved";
+        confirm.message = "Note: This is only for this session. Update the script to save permanently.";
+        confirm.addAction("OK");
+        await confirm.presentAlert();
+    }
+}
+
+// Weather options configuration
+async function configureWeatherOptions() {
+    const alert = new Alert();
+    alert.title = "Weather Options";
+    alert.message = "Configure weather display options";
+    
+    alert.addAction("🌡️ Units: " + WEATHER_UNITS);
+    alert.addAction("🌍 Language: " + PREFERRED_LANG);
+    alert.addAction("⏰ Hours: " + NO_OF_HOURS);
+    alert.addAction("📅 Days: " + NO_OF_DAYS);
+    alert.addAction("✅ Done");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice === -1 || choice === 4) return;
+    
+    if (choice === 0) {
+        const unitsAlert = new Alert();
+        unitsAlert.title = "Temperature Units";
+        unitsAlert.addAction("Metric (°C)");
+        unitsAlert.addAction("Imperial (°F)");
+        unitsAlert.addAction("Standard (K)");
+        unitsAlert.addCancelAction("Cancel");
+        
+        const unitsChoice = await unitsAlert.presentAlert();
+        if (unitsChoice !== -1) {
+            WEATHER_UNITS = ['metric', 'imperial', 'standard'][unitsChoice];
+        }
+        await configureWeatherOptions();
+    } else if (choice === 1) {
+        const langAlert = new Alert();
+        langAlert.title = "Language";
+        langAlert.message = "Enter language code (en, es, fr, de, hi, pt)";
+        langAlert.addTextField("Language", PREFERRED_LANG);
+        langAlert.addAction("Save");
+        langAlert.addCancelAction("Cancel");
+        
+        const response = await langAlert.presentAlert();
+        if (response === 0) {
+            PREFERRED_LANG = langAlert.textFieldValue(0);
+        }
+        await configureWeatherOptions();
+    } else if (choice === 2 || choice === 3) {
+        const label = choice === 2 ? "Hours" : "Days";
+        const current = choice === 2 ? NO_OF_HOURS : NO_OF_DAYS;
+        
+        const numAlert = new Alert();
+        numAlert.title = `Number of ${label}`;
+        numAlert.message = `How many ${label.toLowerCase()} to display?`;
+        numAlert.addTextField(label, current.toString());
+        numAlert.addAction("Save");
+        numAlert.addCancelAction("Cancel");
+        
+        const response = await numAlert.presentAlert();
+        if (response === 0) {
+            const value = parseInt(numAlert.textFieldValue(0));
+            if (!isNaN(value) && value > 0) {
+                if (choice === 2) NO_OF_HOURS = value;
+                else NO_OF_DAYS = value;
+            }
+        }
+        await configureWeatherOptions();
+    }
+}
+
+// Display settings configuration
+async function configureDisplaySettings() {
+    const alert = new Alert();
+    alert.title = "Display Settings";
+    alert.message = "Configure what to display";
+    
+    alert.addAction("☀️ Hourly Icons: " + (WEATHER_SHOW_HOURLY_ICONS ? "ON" : "OFF"));
+    alert.addAction("📊 POP Graph: " + (WEATHER_SHOW_POP_GRAPH ? "ON" : "OFF"));
+    alert.addAction("💧 POP Values: " + (WEATHER_SHOW_POP_VALUES ? "ON" : "OFF"));
+    alert.addAction("🔢 Zero POP: " + (WEATHER_SHOW_ZERO_POP_VALUES ? "ON" : "OFF"));
+    alert.addAction("🎨 Transparency: " + (ALPHA * 100) + "%");
+    alert.addAction("✅ Done");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice === -1 || choice === 5) return;
+    
+    if (choice === 4) {
+        const alphaAlert = new Alert();
+        alphaAlert.title = "Transparency";
+        alphaAlert.message = "Enter transparency value (0-100)";
+        alphaAlert.addTextField("Percentage", (ALPHA * 100).toString());
+        alphaAlert.addAction("Save");
+        alphaAlert.addCancelAction("Cancel");
+        
+        const response = await alphaAlert.presentAlert();
+        if (response === 0) {
+            const value = parseInt(alphaAlert.textFieldValue(0));
+            if (!isNaN(value) && value >= 0 && value <= 100) {
+                ALPHA = value / 100;
+            }
+        }
+    }
+    
+    const confirm = new Alert();
+    confirm.title = "Settings Updated";
+    confirm.message = "Display settings have been updated for this session.";
+    confirm.addAction("OK");
+    await confirm.presentAlert();
+    
+    await configureDisplaySettings();
+}
+
+// View current settings
+async function viewForecastSettings() {
+    const settings = `Current LSForecast Settings:
+
+Accent Color: ${ACCENT_COLOR}
+Transparency: ${(ALPHA * 100)}%
+API Key: ${WEATHER_API_KEY ? "Set (****)" : "Not Set"}
+
+Weather Options:
+- Units: ${WEATHER_UNITS}
+- Language: ${PREFERRED_LANG}
+- Hours: ${NO_OF_HOURS}
+- Days: ${NO_OF_DAYS}
+
+Display Settings:
+- Hourly Icons: ${WEATHER_SHOW_HOURLY_ICONS}
+- POP Graph: ${WEATHER_SHOW_POP_GRAPH}
+- POP Values: ${WEATHER_SHOW_POP_VALUES}
+- Zero POP: ${WEATHER_SHOW_ZERO_POP_VALUES}
+
+Note: Changes are temporary. Edit script to save permanently.`;
+    
+    const alert = new Alert();
+    alert.title = "Current Settings";
+    alert.message = settings;
+    alert.addAction("OK");
+    await alert.presentAlert();
+>>>>>>> origin/master
 }

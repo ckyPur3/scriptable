@@ -1,12 +1,18 @@
 # Table of Contents
 
+<<<<<<< HEAD
 ## Original Scripts
+=======
+- [🤖 AI Features & Autonomous Capabilities](#-ai-features--autonomous-capabilities) ⭐ NEW!
+- [Interactive Tools & Setup](#interactive-tools--setup)
+>>>>>>> origin/master
 - [LSWeather](#lsweather)
 - [LSForecast](#lsforecast)
 - [FavContacts](#favcontacts)
 - [LSMatrix](#lsmatrix)
 - [LSQuotes](#lsquotes)
 
+<<<<<<< HEAD
 ## Development Tools for iOS Developers
 - [iOSDevTools](#iosdevtools) - Comprehensive tool library
 - [DevGitHub](#devgithub) - GitHub integration
@@ -20,6 +26,184 @@
 Note: all shortcuts are updated to now run on iOS 15. Download using the links below.
 ___
 
+=======
+Note: all shortcuts are updated to now run on iOS 15. Download using the links below.
+___
+
+## 🤖 AI Features & Autonomous Capabilities
+
+**NEW!** This repository now includes advanced AI-powered features that enable autonomous operation on your iPhone!
+
+### AI-Powered Scripts
+
+- **🧠 AIAssistant.js** - Your personal AI assistant for quick tasks
+  - Ask questions and get instant answers
+  - Summarize clipboard text
+  - Analyze images with AI vision
+  - Generate creative content
+  - Improve and rewrite text
+  - Extract information intelligently
+
+- **📱 SmartNotifications.js** - Context-aware intelligent notifications
+  - Morning briefings with personalized content
+  - Weather-based alerts and suggestions
+  - Calendar summaries and reminders
+  - Evening reflections
+  - Motivational messages
+
+- **📸 AIPhotoAnalyzer.js** - Analyze photos with AI
+  - Describe photo content in detail
+  - Extract text from images (OCR)
+  - Identify objects and scenes
+  - Suggest tags for organization
+  - Generate accessibility descriptions
+  - Get photo improvement tips
+
+- **⏰ SmartReminders.js** - Natural language reminder creation
+  - "Remind me tomorrow at 3pm to call mom"
+  - Smart time and date interpretation
+  - Priority detection
+  - Recurring reminder support
+
+### AI & API Libraries
+
+- **🛠️ lib/ai-utils.js** - Comprehensive AI utilities
+  - Support for OpenAI and Claude APIs
+  - Image analysis capabilities
+  - Text summarization and improvement
+  - Smart automation helpers
+  - Sentiment analysis
+  - Content generation
+
+- **🔌 lib/api-helpers.js** - External API integration
+  - REST API client
+  - Webhook manager (IFTTT, Zapier, Make)
+  - Authentication helpers
+  - Pre-built integrations: Notion, Airtable, GitHub, Slack, Discord, Telegram
+  - Rate limiting
+  - Data storage utilities
+
+### Quick Start
+
+1. **Install**: Copy scripts to your Scriptable folder in iCloud Drive
+2. **Configure**: Set your OpenAI or Claude API key in the scripts
+3. **Run**: Open any AI script in Scriptable app for interactive menus
+
+### Full Documentation
+
+📖 See **[AI_FEATURES.md](AI_FEATURES.md)** for complete documentation including:
+- Detailed feature descriptions
+- Setup and configuration guides
+- Usage examples and code snippets
+- External integration tutorials
+- Best practices and troubleshooting
+
+### Example Use Cases
+
+- **Daily Automation**: Morning briefings, evening summaries, weather alerts
+- **Photo Management**: Analyze and organize photos with AI tags
+- **Smart Reminders**: Create reminders using natural language
+- **Text Processing**: Summarize articles, extract info, improve writing
+- **External Integrations**: Connect to Notion, Slack, GitHub, and more
+- **Webhooks**: Trigger IFTTT, Zapier, or custom automations
+
+### Requirements
+
+- iOS 15 or later
+- Scriptable app
+- API key from OpenAI or Anthropic (Claude)
+- Internet connection for AI features
+
+___
+
+## Interactive Tools & Setup
+
+All scripts now include **interactive setup menus** when run directly in the Scriptable app! This makes it easy to configure settings, preview changes, and customize your widgets without editing code.
+
+### Features
+
+- 🎨 **Visual Configuration** - Use intuitive menus to select themes, colors, and layouts
+- ⚙️ **Easy Settings** - Configure all script options through interactive prompts
+- 👁️ **Live Preview** - See changes immediately when running scripts in-app
+- 💾 **Quick Actions** - Set up widget behaviors with a few taps
+- 📋 **Settings Viewer** - Review all current settings at a glance
+
+### Interactive Tools Library
+
+The `lib/interactive-utils.js` library provides reusable interactive components:
+
+- **Menu Selection** - Choose from multiple options
+- **Alert Dialogs** - Confirmations and information messages
+- **Text Input Prompts** - Enter API keys, custom text, etc.
+- **Quick Action Selectors** - Configure contact actions for FavContacts
+- **Theme Pickers** - Browse and select color themes
+- **Configuration Wizards** - Multi-step setup processes
+
+### Demo Script
+
+Run **InteractiveToolsDemo.js** in the Scriptable app to see all interactive features in action:
+
+- Theme selector demonstrations
+- Menu selection examples
+- Configuration wizard walkthrough
+- Text input prompts
+- Quick action selectors
+- Save/load configuration demos
+
+### Using Interactive Setup
+
+1. **Run any script in the Scriptable app** (not as a widget or from Shortcuts)
+2. **Interactive setup menu will appear** with configuration options
+3. **Select options** to configure the script:
+   - Choose layouts, themes, and styles
+   - Set API keys and preferences
+   - Configure display options
+   - View current settings
+4. **Generate preview** to see your configured overlay/widget
+
+**Note:** Interactive setup changes are temporary (for preview only). To make permanent changes, edit the configuration section of the script or pass parameters from Shortcuts app.
+
+### Script-Specific Interactive Features
+
+#### FavContacts Interactive Setup
+- 🎨 Choose from 40+ color themes
+- 👤 Select avatar style (contact photo, initials, or symbol)
+- ⚡ Configure quick actions (message, FaceTime, email, WhatsApp, etc.)
+- 📋 View and verify current settings
+
+#### LSWeather Interactive Setup
+- 📐 Select from pre-defined layouts (welcome, minimal, maximal, etc.)
+- 🔑 Set OpenWeather API key
+- 🌡️ Configure weather units and language
+- 📅 Calendar display options
+- 💬 Quote settings and categories
+- 📋 View all current settings
+
+#### LSForecast Interactive Setup
+- 🎨 Choose accent color (presets or custom hex)
+- 🔑 Set OpenWeather API key
+- 🌡️ Configure weather units and language
+- ⏰ Set number of hours/days to display
+- 📊 Display settings (icons, graphs, transparency)
+
+#### LSMatrix Interactive Setup
+- 🌓 Dark/Light mode toggle
+- 🔢 Binary vs Matrix character style
+- 🔐 Cryptic text option
+- 💬 Matrix movie quotes browser
+- 📅 Calendar event settings
+- ⏰ 12/24 hour time format
+
+#### LSQuotes Interactive Setup
+- 💬 Choose quote source (random API or custom)
+- 📝 Edit custom quotes
+- 🏷️ Select quote categories (business, wisdom, faith, etc.)
+- 📏 Text size and appearance settings
+- 🌓 Dark/Light mode
+
+___
+
+>>>>>>> origin/master
 ## LSWeather
 
 A Scriptable script to add weather & calendar information on the lock screen. The script is meant to be called from Shortcuts app.
@@ -477,6 +661,7 @@ The script is embedded in the Shortcuts app. In standalone mode you will only se
 1. To use dark box with light text set `DARK_MODE` to either `true` else `false`
 1. Configure categories setting `QUOTE_TAGS_DICTIONARY` dictionary. Go to [this](https://api.quotable.io/tags) link to get list of available tags/categories.
 1. To limit no. of characters in a quote, set `QUOTE_MAX_LENGTH`.
+<<<<<<< HEAD
 ___
 
 # Development Tools for iOS Developers
@@ -1006,3 +1191,77 @@ ___
 4. Results logged for review
 ```
 
+=======
+
+___
+
+## Development
+
+This repository includes development tools to help you write, maintain, and contribute to these Scriptable scripts.
+
+### Setup
+
+1. **Install Node.js** (v14 or later) from [nodejs.org](https://nodejs.org/)
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Recommended**: Use [VS Code](https://code.visualstudio.com/) with the recommended extensions (you'll be prompted to install them when you open the project)
+
+### Development Tools
+
+- **ESLint**: Lints JavaScript code to catch errors and enforce code style
+- **Prettier**: Automatically formats code for consistency
+- **TypeScript Definitions**: Provides IntelliSense and autocompletion for Scriptable APIs
+
+### Available Scripts
+
+```bash
+# Check for linting errors
+npm run lint
+
+# Auto-fix linting errors
+npm run lint:fix
+
+# Format all JavaScript files
+npm run format
+
+# Check if files are formatted correctly
+npm run format:check
+
+# Run all checks (lint + format check)
+npm run check
+```
+
+### VS Code Integration
+
+If you use VS Code with the recommended extensions:
+- Code is automatically formatted on save
+- Linting errors appear as you type
+- IntelliSense provides autocomplete for Scriptable APIs
+
+### Continuous Integration
+
+This repository includes a GitHub Actions workflow that automatically:
+- Runs ESLint to check for code quality issues
+- Verifies code formatting with Prettier
+
+The workflow runs on all pull requests to ensure code quality standards are maintained.
+
+### Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed information on:
+- Development workflow
+- Code style guidelines  
+- Testing your scripts
+- Submitting pull requests
+
+### Resources
+
+- [Scriptable Documentation](https://docs.scriptable.app/)
+- [Scriptable Community Forums](https://talk.automators.fm/c/scriptable/)
+
+___
+>>>>>>> origin/master
