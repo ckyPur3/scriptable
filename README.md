@@ -641,3 +641,75 @@ The script is embedded in the Shortcuts app. In standalone mode you will only se
 1. To use dark box with light text set `DARK_MODE` to either `true` else `false`
 1. Configure categories setting `QUOTE_TAGS_DICTIONARY` dictionary. Go to [this](https://api.quotable.io/tags) link to get list of available tags/categories.
 1. To limit no. of characters in a quote, set `QUOTE_MAX_LENGTH`.
+
+___
+
+## Development
+
+This repository includes development tools to help you write, maintain, and contribute to these Scriptable scripts.
+
+### Setup
+
+1. **Install Node.js** (v14 or later) from [nodejs.org](https://nodejs.org/)
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Recommended**: Use [VS Code](https://code.visualstudio.com/) with the recommended extensions (you'll be prompted to install them when you open the project)
+
+### Development Tools
+
+- **ESLint**: Lints JavaScript code to catch errors and enforce code style
+- **Prettier**: Automatically formats code for consistency
+- **TypeScript Definitions**: Provides IntelliSense and autocompletion for Scriptable APIs
+
+### Available Scripts
+
+```bash
+# Check for linting errors
+npm run lint
+
+# Auto-fix linting errors
+npm run lint:fix
+
+# Format all JavaScript files
+npm run format
+
+# Check if files are formatted correctly
+npm run format:check
+
+# Run all checks (lint + format check)
+npm run check
+```
+
+### VS Code Integration
+
+If you use VS Code with the recommended extensions:
+- Code is automatically formatted on save
+- Linting errors appear as you type
+- IntelliSense provides autocomplete for Scriptable APIs
+
+### Continuous Integration
+
+This repository includes a GitHub Actions workflow that automatically:
+- Runs ESLint to check for code quality issues
+- Verifies code formatting with Prettier
+
+The workflow runs on all pull requests to ensure code quality standards are maintained.
+
+### Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed information on:
+- Development workflow
+- Code style guidelines  
+- Testing your scripts
+- Submitting pull requests
+
+### Resources
+
+- [Scriptable Documentation](https://docs.scriptable.app/)
+- [Scriptable Community Forums](https://talk.automators.fm/c/scriptable/)
+
+___
