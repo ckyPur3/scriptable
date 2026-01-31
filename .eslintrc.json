@@ -1,0 +1,81 @@
+{
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "script",
+    "requireConfigFile": false,
+    "babelOptions": {
+      "parserOpts": {
+        "allowReturnOutsideFunction": true,
+        "allowAwaitOutsideFunction": true
+      }
+    }
+  },
+  "env": {
+    "es2021": true
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "globals": {
+    "importModule": "readonly",
+    "module": "readonly",
+    "Script": "readonly",
+    "config": "readonly",
+    "Device": "readonly",
+    "Calendar": "readonly",
+    "CalendarEvent": "readonly",
+    "Reminder": "readonly",
+    "Image": "readonly",
+    "Color": "readonly",
+    "Font": "readonly",
+    "DrawContext": "readonly",
+    "FileManager": "readonly",
+    "Photos": "readonly",
+    "Request": "readonly",
+    "WebView": "readonly",
+    "Alert": "readonly",
+    "Notification": "readonly",
+    "ContactsContainer": "readonly",
+    "Contact": "readonly",
+    "DocumentPicker": "readonly",
+    "DateFormatter": "readonly",
+    "Data": "readonly",
+    "Timer": "readonly",
+    "Speech": "readonly",
+    "ShareSheet": "readonly",
+    "XMLParser": "readonly",
+    "Keychain": "readonly",
+    "QuickLook": "readonly",
+    "Safari": "readonly",
+    "UITable": "readonly",
+    "UITableRow": "readonly",
+    "UITableCell": "readonly",
+    "args": "readonly",
+    "console": "readonly"
+  },
+  "rules": {
+    "no-unused-vars": "off",
+    "no-undef": "off",
+    "semi": "off",
+    "prefer-const": "off",
+    "no-empty": "off",
+    "no-redeclare": "off",
+    "no-control-regex": "off",
+    "no-prototype-builtins": "off"
+  },
+  "overrides": [
+    {
+      "files": ["GraphemeSplitter.js"],
+      "env": {
+        "commonjs": true,
+        "node": true
+      },
+      "parserOptions": {
+        "sourceType": "script"
+      },
+      "rules": {
+        "semi": "off",
+        "no-redeclare": "off"
+      }
+    }
+  ]
+}

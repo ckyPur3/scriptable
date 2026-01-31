@@ -80,6 +80,16 @@ if (!config.runsInApp) {
     }
     if (typeof input.weatherData !== 'undefined') WEATHER_DATA = JSON.parse(input.weatherData);
     if (typeof input.deviceMode !== 'undefined') DEVICE_MODE = input.deviceMode;
+<<<<<<< HEAD
+=======
+} else {
+    // Show interactive setup menu when running in app
+    const showSetup = await showInteractiveMatrixSetup();
+    if (showSetup === false) {
+        Script.complete();
+        return;
+    }
+>>>>>>> origin/master
 }
 if (SYSTEM_DARK_MODE) { // System dark mode will over ride dark mode
     if (config.runsInApp) {
@@ -389,4 +399,227 @@ function containsDoubleByte(str) {
     if (!str.length) return false;
     if (str.charCodeAt(0) > 255) return true;
     return regex.test(str);
+<<<<<<< HEAD
+=======
+}
+
+// Interactive setup menu for LSMatrix
+async function showInteractiveMatrixSetup() {
+    const alert = new Alert();
+    alert.title = "LSMatrix Setup";
+    alert.message = "Configure your Matrix wallpaper";
+    
+    alert.addAction("🎨 Style Settings");
+    alert.addAction("💬 Quote Settings");
+    alert.addAction("📅 Calendar Settings");
+    alert.addAction("⏰ Time Format");
+    alert.addAction("📋 View Settings");
+    alert.addAction("✅ Generate Preview");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    
+    if (choice === -1) {
+        return false;
+    }
+    
+    switch (choice) {
+        case 0:
+            await configureMatrixStyle();
+            return await showInteractiveMatrixSetup();
+        case 1:
+            await configureMatrixQuotes();
+            return await showInteractiveMatrixSetup();
+        case 2:
+            await configureMatrixCalendar();
+            return await showInteractiveMatrixSetup();
+        case 3:
+            await configureTimeFormat();
+            return await showInteractiveMatrixSetup();
+        case 4:
+            await viewMatrixSettings();
+            return await showInteractiveMatrixSetup();
+        case 5:
+            return true; // Continue to generate preview
+    }
+}
+
+// Style settings
+async function configureMatrixStyle() {
+    const alert = new Alert();
+    alert.title = "Style Settings";
+    alert.message = "Configure Matrix wallpaper appearance";
+    
+    alert.addAction("🌓 Dark Mode: " + (DARK_MODE ? "ON" : "OFF"));
+    alert.addAction("🔢 Binary Mode: " + (BINARY_MODE ? "ON" : "OFF"));
+    alert.addAction("🔐 Cryptic Text: " + (CRYPTIC_TEXT ? "ON" : "OFF"));
+    alert.addAction("🌍 System Appearance: " + (SYSTEM_DARK_MODE ? "ON" : "OFF"));
+    alert.addAction("✅ Done");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice === -1 || choice === 4) return;
+    
+    if (choice === 0) {
+        DARK_MODE = !DARK_MODE;
+    } else if (choice === 1) {
+        BINARY_MODE = !BINARY_MODE;
+        
+        const modeAlert = new Alert();
+        modeAlert.title = "Binary Mode";
+        modeAlert.message = BINARY_MODE 
+            ? "Using binary characters (0 and 1)"
+            : "Using Matrix-style characters (kana)";
+        modeAlert.addAction("OK");
+        await modeAlert.presentAlert();
+    } else if (choice === 2) {
+        CRYPTIC_TEXT = !CRYPTIC_TEXT;
+    } else if (choice === 3) {
+        SYSTEM_DARK_MODE = !SYSTEM_DARK_MODE;
+        
+        if (SYSTEM_DARK_MODE) {
+            const sysAlert = new Alert();
+            sysAlert.title = "System Appearance";
+            sysAlert.message = "Wallpaper will follow system dark/light mode.";
+            sysAlert.addAction("OK");
+            await sysAlert.presentAlert();
+        }
+    }
+    
+    await configureMatrixStyle();
+}
+
+// Quote settings
+async function configureMatrixQuotes() {
+    const alert = new Alert();
+    alert.title = "Quote Settings";
+    alert.message = "Configure Matrix quotes display";
+    
+    alert.addAction("💬 Show Quotes: " + (SHOW_QUOTES ? "ON" : "OFF"));
+    alert.addAction("📖 Browse Quotes");
+    alert.addAction("✅ Done");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice === -1 || choice === 2) return;
+    
+    if (choice === 0) {
+        SHOW_QUOTES = !SHOW_QUOTES;
+        
+        const confirm = new Alert();
+        confirm.title = "Quotes " + (SHOW_QUOTES ? "Enabled" : "Disabled");
+        confirm.message = SHOW_QUOTES 
+            ? "Famous Matrix quotes will be shown"
+            : "Quotes will be hidden";
+        confirm.addAction("OK");
+        await confirm.presentAlert();
+    } else if (choice === 1) {
+        const quoteKeys = Object.keys(MATRIX_QUOTES);
+        const randomKey = quoteKeys[Math.floor(Math.random() * quoteKeys.length)];
+        const quote = MATRIX_QUOTES[randomKey];
+        
+        const quoteAlert = new Alert();
+        quoteAlert.title = quote.author;
+        quoteAlert.message = `"${quote.quote}"`;
+        quoteAlert.addAction("Another Quote");
+        quoteAlert.addAction("Done");
+        
+        const quoteChoice = await quoteAlert.presentAlert();
+        if (quoteChoice === 0) {
+            return await configureMatrixQuotes();
+        }
+    }
+    
+    await configureMatrixQuotes();
+}
+
+// Calendar settings
+async function configureMatrixCalendar() {
+    const alert = new Alert();
+    alert.title = "Calendar Settings";
+    alert.message = "Configure calendar event display";
+    
+    alert.addAction("📅 All-Day Events: " + (CALENDAR_SHOW_ALL_DAY_EVENTS ? "ON" : "OFF"));
+    alert.addAction("🔢 Max Events: " + CALENDAR_MAX_EVENTS);
+    alert.addAction("✅ Done");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice === -1 || choice === 2) return;
+    
+    if (choice === 0) {
+        CALENDAR_SHOW_ALL_DAY_EVENTS = !CALENDAR_SHOW_ALL_DAY_EVENTS;
+    } else if (choice === 1) {
+        const maxAlert = new Alert();
+        maxAlert.title = "Maximum Events";
+        maxAlert.message = "How many events to display?";
+        maxAlert.addTextField("Count", CALENDAR_MAX_EVENTS.toString());
+        maxAlert.addAction("Save");
+        maxAlert.addCancelAction("Cancel");
+        
+        const response = await maxAlert.presentAlert();
+        if (response === 0) {
+            const value = parseInt(maxAlert.textFieldValue(0));
+            if (!isNaN(value) && value >= 0) {
+                CALENDAR_MAX_EVENTS = value;
+            }
+        }
+    }
+    
+    await configureMatrixCalendar();
+}
+
+// Time format settings
+async function configureTimeFormat() {
+    const alert = new Alert();
+    alert.title = "Time Format";
+    alert.message = `Current: ${TIME_FORMAT_24HR ? "24-hour" : "12-hour"}`;
+    
+    alert.addAction("🕐 12-hour (AM/PM)");
+    alert.addAction("🕐 24-hour");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice !== -1) {
+        TIME_FORMAT_24HR = choice === 1;
+        
+        const confirm = new Alert();
+        confirm.title = "Time Format Set";
+        confirm.message = `Using ${TIME_FORMAT_24HR ? "24-hour" : "12-hour"} format`;
+        confirm.addAction("OK");
+        await confirm.presentAlert();
+    }
+}
+
+// View current settings
+async function viewMatrixSettings() {
+    const settings = `Current LSMatrix Settings:
+
+Style:
+- Dark Mode: ${DARK_MODE}
+- System Appearance: ${SYSTEM_DARK_MODE}
+- Binary Mode: ${BINARY_MODE}
+- Cryptic Text: ${CRYPTIC_TEXT}
+
+Content:
+- Show Quotes: ${SHOW_QUOTES}
+- Show Weather: ${SHOW_WEATHER}
+- Show Last Updated: ${SHOW_LAST_UPDATED}
+
+Calendar:
+- All-Day Events: ${CALENDAR_SHOW_ALL_DAY_EVENTS}
+- Max Events: ${CALENDAR_MAX_EVENTS}
+- Calendars: ${CALENDAR_NAMES.length === 0 ? "All" : CALENDAR_NAMES.join(", ")}
+
+Time:
+- Format: ${TIME_FORMAT_24HR ? "24-hour" : "12-hour"}
+
+Note: Changes are temporary. Edit script to save permanently.`;
+    
+    const alert = new Alert();
+    alert.title = "Current Settings";
+    alert.message = settings;
+    alert.addAction("OK");
+    await alert.presentAlert();
+>>>>>>> origin/master
 }
