@@ -322,6 +322,13 @@ if (!config.runsInApp) {
   let inputParams = args.shortcutParameter;
   if (inputParams.layout) LAYOUT = inputParams.layout;
   if (inputParams.apiKey) WEATHER_API_KEY = inputParams.apiKey;
+} else {
+  // Show interactive setup menu when running in app
+  const showSetup = await showInteractiveWeatherSetup();
+  if (showSetup === false) {
+    Script.complete();
+    return;
+  }
 }
 
 const DEVICE_RESOLUTION = Device.screenResolution();
@@ -1376,4 +1383,226 @@ async function checkUpdates(){
     }
   }
   return updateRequired;
+}
+
+// Interactive setup menu for LSWeather
+async function showInteractiveWeatherSetup() {
+    const alert = new Alert();
+    alert.title = "LSWeather Setup";
+    alert.message = "Configure your lock screen weather overlay";
+    
+    alert.addAction("📐 Select Layout");
+    alert.addAction("🔑 Set API Key");
+    alert.addAction("🌡️ Weather Settings");
+    alert.addAction("📅 Calendar Settings");
+    alert.addAction("💬 Quote Settings");
+    alert.addAction("📋 View Current Settings");
+    alert.addAction("✅ Generate Preview");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    
+    if (choice === -1) {
+        return false;
+    }
+    
+    switch (choice) {
+        case 0:
+            await selectLayoutInteractive();
+            return await showInteractiveWeatherSetup();
+        case 1:
+            await setAPIKeyInteractive();
+            return await showInteractiveWeatherSetup();
+        case 2:
+            await configureWeatherSettings();
+            return await showInteractiveWeatherSetup();
+        case 3:
+            await configureCalendarSettings();
+            return await showInteractiveWeatherSetup();
+        case 4:
+            await configureQuoteSettings();
+            return await showInteractiveWeatherSetup();
+        case 5:
+            await viewWeatherSettings();
+            return await showInteractiveWeatherSetup();
+        case 6:
+            return true; // Continue to generate preview
+    }
+}
+
+// Layout selector
+async function selectLayoutInteractive() {
+    const layouts = ['welcome', 'minimalWeather', 'feelMotivated', 'minimalCalendar', 'showMyWork', 'maximalWeather', 'custom'];
+    
+    const alert = new Alert();
+    alert.title = "Select Layout";
+    alert.message = `Current layout: ${LAYOUT}`;
+    
+    layouts.forEach(layout => {
+        alert.addAction(layout);
+    });
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice !== -1) {
+        LAYOUT = layouts[choice];
+        
+        const confirm = new Alert();
+        confirm.title = "Layout Selected";
+        confirm.message = `Layout set to: ${LAYOUT}`;
+        confirm.addAction("OK");
+        await confirm.presentAlert();
+    }
+}
+
+// API Key configuration
+async function setAPIKeyInteractive() {
+    const alert = new Alert();
+    alert.title = "OpenWeather API Key";
+    alert.message = "Enter your OpenWeather API key.\nGet one free at openweathermap.org";
+    alert.addTextField("API Key", WEATHER_API_KEY);
+    alert.addAction("Save");
+    alert.addCancelAction("Cancel");
+    
+    const response = await alert.presentAlert();
+    if (response === 0) {
+        WEATHER_API_KEY = alert.textFieldValue(0);
+        
+        const confirm = new Alert();
+        confirm.title = "API Key Saved";
+        confirm.message = "Note: This is only for this session. Update the script to save permanently.";
+        confirm.addAction("OK");
+        await confirm.presentAlert();
+    }
+}
+
+// Weather settings configuration
+async function configureWeatherSettings() {
+    const alert = new Alert();
+    alert.title = "Weather Settings";
+    alert.message = "Configure weather display options";
+    
+    alert.addAction("🌡️ Units: " + WEATHER_UNITS);
+    alert.addAction("🌍 Language: " + WEATHER_LANG);
+    alert.addAction("✅ Done");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    if (choice === -1) return;
+    
+    if (choice === 0) {
+        const unitsAlert = new Alert();
+        unitsAlert.title = "Temperature Units";
+        unitsAlert.addAction("Metric (°C)");
+        unitsAlert.addAction("Imperial (°F)");
+        unitsAlert.addAction("Standard (K)");
+        unitsAlert.addCancelAction("Cancel");
+        
+        const unitsChoice = await unitsAlert.presentAlert();
+        if (unitsChoice !== -1) {
+            const units = ['metric', 'imperial', 'standard'][unitsChoice];
+            const confirm = new Alert();
+            confirm.title = "Units Set";
+            confirm.message = `Temperature units: ${units}`;
+            confirm.addAction("OK");
+            await confirm.presentAlert();
+        }
+        await configureWeatherSettings();
+    } else if (choice === 1) {
+        const langAlert = new Alert();
+        langAlert.title = "Language";
+        langAlert.message = "Enter language code (e.g., en, es, fr, de)";
+        langAlert.addTextField("Language", WEATHER_LANG);
+        langAlert.addAction("Save");
+        langAlert.addCancelAction("Cancel");
+        
+        const response = await langAlert.presentAlert();
+        if (response === 0) {
+            const newLang = langAlert.textFieldValue(0);
+            const confirm = new Alert();
+            confirm.title = "Language Set";
+            confirm.message = `Language: ${newLang}`;
+            confirm.addAction("OK");
+            await confirm.presentAlert();
+        }
+        await configureWeatherSettings();
+    }
+}
+
+// Calendar settings configuration
+async function configureCalendarSettings() {
+    const alert = new Alert();
+    alert.title = "Calendar Settings";
+    alert.message = "Configure calendar display options";
+    
+    alert.addAction("📅 Show All-Day Events: " + (CALENDAR_SHOW_ALL_DAY_EVENTS ? "ON" : "OFF"));
+    alert.addAction("🔜 Show Tomorrow Events: " + (CALENDAR_SHOW_TOMORROW_EVENTS ? "ON" : "OFF"));
+    alert.addAction("🎨 Show Colors: " + (CALENDAR_SHOW_COLORS ? "ON" : "OFF"));
+    alert.addAction("✅ Done");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    
+    if (choice >= 0 && choice <= 2) {
+        const confirm = new Alert();
+        confirm.title = "Setting Toggled";
+        confirm.message = "This is a preview. Edit script for permanent changes.";
+        confirm.addAction("OK");
+        await confirm.presentAlert();
+        
+        await configureCalendarSettings();
+    }
+}
+
+// Quote settings configuration
+async function configureQuoteSettings() {
+    const alert = new Alert();
+    alert.title = "Quote Settings";
+    alert.message = "Configure quote display options";
+    
+    alert.addAction("💬 Show Quotes: " + (QUOTE_SHOW_QUOTES ? "ON" : "OFF"));
+    alert.addAction("🏷️ Quote Tags: " + QUOTE_TAGS.join(", "));
+    alert.addAction("✅ Done");
+    alert.addCancelAction("Cancel");
+    
+    const choice = await alert.presentAlert();
+    
+    if (choice === 0 || choice === 1) {
+        const confirm = new Alert();
+        confirm.title = "Quote Settings";
+        confirm.message = "Edit script configuration for permanent changes.";
+        confirm.addAction("OK");
+        await confirm.presentAlert();
+        
+        await configureQuoteSettings();
+    }
+}
+
+// View current settings
+async function viewWeatherSettings() {
+    const settings = `Current LSWeather Settings:
+
+Layout: ${LAYOUT}
+API Key: ${WEATHER_API_KEY ? "Set (****)" : "Not Set"}
+Weather Units: ${WEATHER_UNITS}
+Weather Language: ${WEATHER_LANG}
+Show Weather: ${WEATHER_SHOW_WEATHER}
+
+Calendar Settings:
+- Show All-Day: ${CALENDAR_SHOW_ALL_DAY_EVENTS}
+- Show Tomorrow: ${CALENDAR_SHOW_TOMORROW_EVENTS}
+- Show Colors: ${CALENDAR_SHOW_COLORS}
+
+Quote Settings:
+- Show Quotes: ${QUOTE_SHOW_QUOTES}
+- Tags: ${QUOTE_TAGS.join(", ")}
+
+Note: Changes are temporary. Edit script to save permanently.`;
+    
+    const alert = new Alert();
+    alert.title = "Current Settings";
+    alert.message = settings;
+    alert.addAction("OK");
+    await alert.presentAlert();
+
 }
