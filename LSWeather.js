@@ -322,8 +322,6 @@ if (!config.runsInApp) {
   let inputParams = args.shortcutParameter;
   if (inputParams.layout) LAYOUT = inputParams.layout;
   if (inputParams.apiKey) WEATHER_API_KEY = inputParams.apiKey;
-<<<<<<< HEAD
-=======
 } else {
   // Show interactive setup menu when running in app
   const showSetup = await showInteractiveWeatherSetup();
@@ -331,7 +329,6 @@ if (!config.runsInApp) {
     Script.complete();
     return;
   }
->>>>>>> origin/master
 }
 
 const DEVICE_RESOLUTION = Device.screenResolution();
@@ -1386,8 +1383,6 @@ async function checkUpdates(){
     }
   }
   return updateRequired;
-<<<<<<< HEAD
-=======
 }
 
 // Interactive setup menu for LSWeather
@@ -1609,5 +1604,5 @@ Note: Changes are temporary. Edit script to save permanently.`;
     alert.message = settings;
     alert.addAction("OK");
     await alert.presentAlert();
->>>>>>> origin/master
+
 }

@@ -140,8 +140,6 @@ if (widgetType == "small") {
     MAX_CONTACTS = 8;
 }
 
-<<<<<<< HEAD
-=======
 // Interactive setup menu when running in app (not in widget)
 if (!config.runsInWidget && config.runsInApp) {
     const shouldShowMenu = await showInteractiveSetupMenu();
@@ -152,7 +150,6 @@ if (!config.runsInWidget && config.runsInApp) {
     }
 }
 
->>>>>>> origin/master
 // Update contacts.json when script is run in app
 if (!config.runsInWidget) {
     await loadContacts();
@@ -614,8 +611,6 @@ async function writeLOG(logMsg){
       fm.writeString(logFile, logMsg);
     } else console.log ("Step_" + LOG_STEP + ": " + logMsg);
     LOG_STEP++;
-<<<<<<< HEAD
-=======
 }
 
 // Interactive setup menu for in-app configuration
@@ -823,5 +818,5 @@ Note: These are runtime settings. To make permanent changes, edit the script con
     alert.message = settings;
     alert.addAction("OK");
     await alert.presentAlert();
->>>>>>> origin/master
+
 }

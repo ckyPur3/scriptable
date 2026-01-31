@@ -1,18 +1,15 @@
 # Table of Contents
 
-<<<<<<< HEAD
-## Original Scripts
-=======
 - [🤖 AI Features & Autonomous Capabilities](#-ai-features--autonomous-capabilities) ⭐ NEW!
 - [Interactive Tools & Setup](#interactive-tools--setup)
->>>>>>> origin/master
+
+## Original Scripts
 - [LSWeather](#lsweather)
 - [LSForecast](#lsforecast)
 - [FavContacts](#favcontacts)
 - [LSMatrix](#lsmatrix)
 - [LSQuotes](#lsquotes)
 
-<<<<<<< HEAD
 ## Development Tools for iOS Developers
 - [iOSDevTools](#iosdevtools) - Comprehensive tool library
 - [DevGitHub](#devgithub) - GitHub integration
@@ -23,10 +20,6 @@
 - [AIPromptManager](#aipromptmanager) - AI prompt templates and management
 - [AgentOrchestrator](#agentorchestrator) - Agent orchestration and workflow automation
 
-Note: all shortcuts are updated to now run on iOS 15. Download using the links below.
-___
-
-=======
 Note: all shortcuts are updated to now run on iOS 15. Download using the links below.
 ___
 
@@ -203,7 +196,6 @@ Run **InteractiveToolsDemo.js** in the Scriptable app to see all interactive fea
 
 ___
 
->>>>>>> origin/master
 ## LSWeather
 
 A Scriptable script to add weather & calendar information on the lock screen. The script is meant to be called from Shortcuts app.
@@ -661,7 +653,7 @@ The script is embedded in the Shortcuts app. In standalone mode you will only se
 1. To use dark box with light text set `DARK_MODE` to either `true` else `false`
 1. Configure categories setting `QUOTE_TAGS_DICTIONARY` dictionary. Go to [this](https://api.quotable.io/tags) link to get list of available tags/categories.
 1. To limit no. of characters in a quote, set `QUOTE_MAX_LENGTH`.
-<<<<<<< HEAD
+
 ___
 
 # Development Tools for iOS Developers
@@ -1191,8 +1183,6 @@ ___
 4. Results logged for review
 ```
 
-=======
-
 ___
 
 ## Development
@@ -1264,4 +1254,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed information on:
 - [Scriptable Community Forums](https://talk.automators.fm/c/scriptable/)
 
 ___
->>>>>>> origin/master
+

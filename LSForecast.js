@@ -72,8 +72,6 @@ if (!config.runsInApp) {
   if (inputParams.apiKey) WEATHER_API_KEY = inputParams.apiKey;
   if (inputParams.accent) ACCENT_COLOR = inputParams.accent;
   if (inputParams.alpha >= 0 && inputParams.alpha <= 1) ALPHA = inputParams.alpha;
-<<<<<<< HEAD
-=======
 } else {
   // Show interactive setup menu when running in app
   const showSetup = await showInteractiveForecastSetup();
@@ -81,7 +79,6 @@ if (!config.runsInApp) {
     Script.complete();
     return;
   }
->>>>>>> origin/master
 }
 
 try {
@@ -781,8 +778,6 @@ function getLanguage() {
       WEATHER_LANG = "en";
   };
   return text[language];
-<<<<<<< HEAD
-=======
 }
 
 // Interactive setup menu for LSForecast
@@ -1044,5 +1039,5 @@ Note: Changes are temporary. Edit script to save permanently.`;
     alert.message = settings;
     alert.addAction("OK");
     await alert.presentAlert();
->>>>>>> origin/master
+
 }

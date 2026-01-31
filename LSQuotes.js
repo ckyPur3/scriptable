@@ -47,8 +47,6 @@ if (!config.runsInApp) {
         if (typeof inputParams.textSize !== 'undefined') TEXT_SIZE = inputParams.textSize.toLowerCase();
     }
     if (typeof input.customQuote !== 'undefined') CUSTOM_QUOTE = input.customQuote;
-<<<<<<< HEAD
-=======
 } else {
     // Show interactive setup menu when running in app
     const showSetup = await showInteractiveQuotesSetup();
@@ -56,7 +54,6 @@ if (!config.runsInApp) {
         Script.complete();
         return;
     }
->>>>>>> origin/master
 }
 
 if (CUSTOM_QUOTE_FLAG && CUSTOM_QUOTE === null) CUSTOM_QUOTE_FLAG = false;
@@ -229,8 +226,6 @@ function containsDoubleByte(str) {
     if (!str.length) return false;
     if (str.charCodeAt(0) > 255) return true;
     return REGEX.test(str);
-<<<<<<< HEAD
-=======
 }
 
 // Interactive setup menu for LSQuotes
@@ -433,5 +428,5 @@ Note: Changes are temporary. Edit script to save permanently.`;
     alert.message = settings;
     alert.addAction("OK");
     await alert.presentAlert();
->>>>>>> origin/master
+
 }

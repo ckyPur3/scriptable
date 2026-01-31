@@ -80,8 +80,6 @@ if (!config.runsInApp) {
     }
     if (typeof input.weatherData !== 'undefined') WEATHER_DATA = JSON.parse(input.weatherData);
     if (typeof input.deviceMode !== 'undefined') DEVICE_MODE = input.deviceMode;
-<<<<<<< HEAD
-=======
 } else {
     // Show interactive setup menu when running in app
     const showSetup = await showInteractiveMatrixSetup();
@@ -89,7 +87,6 @@ if (!config.runsInApp) {
         Script.complete();
         return;
     }
->>>>>>> origin/master
 }
 if (SYSTEM_DARK_MODE) { // System dark mode will over ride dark mode
     if (config.runsInApp) {
@@ -399,8 +396,6 @@ function containsDoubleByte(str) {
     if (!str.length) return false;
     if (str.charCodeAt(0) > 255) return true;
     return regex.test(str);
-<<<<<<< HEAD
-=======
 }
 
 // Interactive setup menu for LSMatrix
@@ -621,5 +616,5 @@ Note: Changes are temporary. Edit script to save permanently.`;
     alert.message = settings;
     alert.addAction("OK");
     await alert.presentAlert();
->>>>>>> origin/master
+
 }
